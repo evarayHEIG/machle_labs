@@ -8,7 +8,7 @@
 |---|-----------------|-------------|
 | 2 | 3 | Tie between 2 and 3 but 3 is closer to the test instance. |
 | 5 | 1 | There are 3 neighbors from class 1 out of 5. |
-| 7 | 1 | There are 3 neighbors that belong to class 1 and 3 to class 2. There is a tie but the closest neighbor is from class 1. |
+| 7 | 2 | There are 3 neighbors that belong to class 1 and 3 to class 2. There is a tie but the closest neighbor is from class 2. |
 | 8 | 2 | There are 4 neighbors that belong to class 2, 3 to class 1, 1 to class 3. |
 
 > b) Explain in your own words the differences between instance-based learning and model-based learning.
