@@ -13,7 +13,7 @@
 
 > b) Explain in your own words the differences between instance-based learning and model-based learning.
 
-Instance-based learning stores the training examples and makes predictions using similarity to those stored instances (no global parametric model learned). The system “remembers” training points and uses them at inference.
+Instance-based learning (or memory-based learning) stores the training examples and makes predictions using similarity to those stored instances (no global parametric model learned). The system “remembers” training points and uses them at inference.
 
 Model-based learning develops a model (a mapping function) from training data. At test time the model (not the raw training set) is used to predict.
 
@@ -48,7 +48,7 @@ Yes. Distance based methods suffer from the curse of dimensionality. As dimensio
 
 > i) **Difficult** What is the expected error rate computed on the training set with K = 1 ?
 
-The expected error rate is 0%. Each training point's nearest neighbour is itself (distance 0), so the prediction is always the true label.
+If we use K = 1 it induces a Voronoi tessellation. The expected error rate is 0%. Each training point's nearest neighbour is itself (distance 0), so the prediction is always the true label. In the book Machine Learning - A Probabilistic Perspective by Kevin P. Murphy we can see this with the Figure 1.14(b).
 
 > j) **Difficult** What is the expected error rate computed on the training set with K = 2 and a shortest distance based tie resolution ?
 
