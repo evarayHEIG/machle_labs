@@ -190,7 +190,6 @@ The global F1-score for the “r” class increases from 44.69% to 52.61%, which
 
 This behavior is explained by how Gradient Boosting trains its sequence of trees. Each new tree focuses specifically on the errors made by the previous ones. As a result, samples from class “r” that were misclassified receive more weight in later iterations. The model gradually learns to avoid the types of mistakes it repeatedly made before. This reduces false positives for “r”, which is why precision rises so sharply. At the same time, the model becomes more conservative and stops predicting “r” in uncertain cases, which explains the lower recall.
 
-The confusion matrix supports this interpretation. Gradient Boosting greatly reduces incorrect “r” predictions, so when it predicts “r”, it is correct 73.5% of the time, compared to only 36% with Random Forest. However, the drop in recall shows that more true “r” samples are now classified as other stages, making the prediction behavior safer but less sensitive.
 
 ```
 Accuracy on Training Set: 0.9564975934838948
