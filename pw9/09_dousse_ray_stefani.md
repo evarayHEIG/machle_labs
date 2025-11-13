@@ -174,4 +174,96 @@ There is a big difference in feature importance between the first features and t
 
 > Q3.1: Two additional hyperparameters were added compared to the RandomForestClassifier. What are these hyperparameters, and what roles do they play?
 
+The two additional hyperparameters are:
+
+- learning_rate (0.05): Controls the contribution of each tree to the final prediction. A lower learning rate means each tree has less influence, requiring more trees but typically leading to better generalization and reduced overfitting. It shrinks the contribution of each tree by this factor.
+
+- subsample (0.5): The fraction of samples to be used for fitting each individual tree. Setting it to 0.5 means only 50% of the training data is randomly sampled for each tree. This helps prevent overfitting as well.
+
 > Q3.2: Comment the results. Compare these results with the ones obtained with the RandomForestClassifier. Compare more specifically the precision, the recall and the f1-score of the 'r' class obtained with GradientBoostingClassifier and RandomForestClassifier. What are your conclusions?
+
+Our Gradient Boosting model performs noticeably better overall than the Random Forest. The test accuracy increases from 86.03% to 91.12%, showing that the model makes fewer mistakes on the whole dataset.
+
+The most important difference appears on the “r” (REM sleep) class. Gradient Boosting strongly improves precision: 73.51% instead of 35.96%. This means that when the model predicts “r”, it is far more likely to be correct. The gain is large, roughly a 104% increase. However, this improvement comes with a drawback. The recall decreases from 59.04% to 40.96%, which means the model now misses more true “r” samples. In other words, it predicts “r” less often, but with much higher reliability.
+
+The global F1-score for the “r” class increases from 44.69% to 52.61%, which indicates a more balanced performance despite the recall drop. The model becomes more selective but also more accurate in its positive predictions.
+
+This behavior is explained by how Gradient Boosting trains its sequence of trees. Each new tree focuses specifically on the errors made by the previous ones. As a result, samples from class “r” that were misclassified receive more weight in later iterations. The model gradually learns to avoid the types of mistakes it repeatedly made before. This reduces false positives for “r”, which is why precision rises so sharply. At the same time, the model becomes more conservative and stops predicting “r” in uncertain cases, which explains the lower recall.
+
+The confusion matrix supports this interpretation. Gradient Boosting greatly reduces incorrect “r” predictions, so when it predicts “r”, it is correct 73.5% of the time, compared to only 36% with Random Forest. However, the drop in recall shows that more true “r” samples are now classified as other stages, making the prediction behavior safer but less sensitive.
+
+```
+Accuracy on Training Set: 0.9564975934838948
+Accuracy on Test Set: 0.9111549851924975
+Classification Report for Training Set:
+              precision    recall  f1-score       support
+n              0.956192  0.964212  0.960186   5365.000000
+r              0.953608  0.689013  0.800000   1074.000000
+w              0.956886  0.981673  0.969121   9767.000000
+accuracy       0.956498  0.956498  0.956498      0.956498
+macro avg      0.955562  0.878300  0.909769  16206.000000
+weighted avg   0.956439  0.956498  0.954955  16206.000000
+```
+
+```
+Classification Report for Test Set:
+              precision    recall  f1-score      support
+n              0.916968  0.922965  0.919957  1376.000000
+r              0.735099  0.409594  0.526066   271.000000
+w              0.918521  0.960915  0.939240  2405.000000
+accuracy       0.911155  0.911155  0.911155     0.911155
+macro avg      0.856863  0.764491  0.795088  4052.000000
+weighted avg   0.905726  0.911155  0.905058  4052.000000
+```
+![](./figures/gb_confusion_matrix.png)
+
+The explanation of how Gradient Boosting focuses on correction errors is further illustrated in the following example.
+
+1. Training the Gradient Boosting Trees: the First Tree
+    
+    First, we train a decision tree (f1) using all the data and features.  
+    Then, we calculate its predictions f1(x) and compare them to the ground truth y:
+
+    $$
+    \begin{array}{c|c|c|c}
+    x & y & f_1(x) & y - f_1(x) \\
+    \hline
+    x_1 & 10 & 9  & 1  \\
+    x_2 & 11 & 13 & -2 \\
+    x_3 & 13 & 15 & -2 \\
+    x_4 & 20 & 25 & -5 \\
+    x_5 & 22 & 31 & -9 \\
+    \end{array}
+    $$
+
+2. The Second Tree
+
+As we see, the first tree seems off. How can we improve it? An intuitive strategy is to fit another regressor f2 on the residuals y − f1. If it's accurate, then f1(x) + f2(x) ≈ y, and the model becomes more precise.
+
+To evaluate the adequacy of f1 + f2, we compute the new residuals y − f1(x) − f2(x):
+
+$$
+\begin{array}{c|c|c|c|c}
+x & y & f_1(x) & f_2(x) & y - f_1(x) - f_2(x) \\
+\hline
+x_1 & 10 & 9  & 0.5 & 0.5 \\
+x_2 & 11 & 13 & 1   & -3  \\
+x_3 & 13 & 15 & -1  & -1  \\
+x_4 & 20 & 25 & -2  & -3  \\
+x_5 & 22 & 31 & -4  & -5  \\
+\end{array}
+$$
+
+
+If the residuals are sufficiently small, we stop here and use f1 + f2 as our model.  
+If not, we fit another tree f3 to predict the remaining residuals and continue. We repeat the process until the residuals are reduced to an acceptable level or until the maximum number of trees is reached.
+
+On the other hand, if the data is noisy, Gradient Boosting can overfit more easily than Random Forest due to its focus on minimizing errors from previous trees.
+
+Note: This example has been taken as is from the following source:
+
+[baeldung](https://www.baeldung.com/cs/gradient-boosting-trees-vs-random-forests)
+
+And explained in more detail in the following source:
+
+[geeksforgeeks](https://www.geeksforgeeks.org/machine-learning/gradient-boosting-vs-random-forest/#robustness-to-noise-of-gradient-boosting-vs-random-forest)
