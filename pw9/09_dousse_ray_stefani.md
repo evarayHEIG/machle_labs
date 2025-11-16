@@ -6,26 +6,86 @@
 
 > Q1.1: At which frequencies does the electrical activity mostly occur?
 
+We can observe that most of the electrical activity occurs at low frequencies,
+between 0 and ~15 Hz. The activity is therefore mainly in the low-frequency range.
 > Q1.2: Can you easily distinguish between classes visually? What can you say about the inter- vs intra-class variability?
 
+It is difficult to visually distinguish between the classes based on the plots.
+The three classes show similar patterns. They are in the same frequency range and have similar amplitudes. They all show peaks at low frequencies and decrease in amplitude as the frequency increases.
+*inter-class variability*: When comparing different classes, they have a similar overall shape and frequency distribution with almost no activity after 20 Hz. Small differences can be observed with amplitude slightly higher for class `r` or a wider distribution for class `w`, but these differences are not very pronounced. 
+*intra-class variability*: Within each class, there is a higher variability between samples. Some samples have higher amplitudes like in class `n` where the third diagram has a higher peak (almost 8) compared to the others (under 4). For class `r`, the first diagram has a peak at ~4, the next one at ~6 and the last one at ~8.  
+
+
 > Q1.3: Describe both of these criteria. What does a gini impurity of 0 means? What does an entropy of 1 mean?
+> 
+The Gini impurity describes the probability of misclassifying a randomly chosen element if it was labeled according to the distribution of labels in the set. If the Gini impurity is 0, it means that all elements in the set belong to the same class while an impurity of 0.5 indicates that the elements are evenly distributed among the classes.
+
+The entropy measure the uncertainty and disorder in a set. The entropy is measured between 0 and log2(n) where n is the number of classes. An entropy of 0 means that there are no uncertainties in the set like for example when all elements belong to the same class. An entropy of 1 (for 2 classes) is the maximum uncertainty, meaning that the elements are evenly distributed among the classes. So the model cannot make any reliable predictions.
 
 > Q1.4: This problem suffers from a common issue in machine learning. What is this problem called? What could be its causes? How can it be resolved?
+
+The model is clearly overfitting. We can see tjat the accuracy on the training set is 1.0 (100%) which is extremely high, while the accuracy on the test set is around 80%. This is most likely due to the fact that the tree is growing too deep and is learning noise and details from the training data that do not generalize well to unseen data.
+To prevent overfitting, we can use techniques such as pruning the tree, setting a maximum depth for the tree, requiring a minimum number of samples per leaf or early stopping during the training process. 
 
 > Q1.5: Use the visualization of this tree to show and explain:
 >    - What is a node? What is an edge? What is a leaf?
 >    - What are the two additional hyperparameters doing? Do you think that both are necessary in this particular case (min_samples_leaf = 20, max_depth= 4)? Why?
 >    - What does the color of each node represent?
 
+A **Node** is a point in the tree  where the model makes a decision based on a condition on a feature. Each node splits the data into two branches based on whether the condition is met or not.
+An **Edge** is the connection between nodes that represents the outcome of a decision made at a node. It connects a parent node to its child nodes. 
+A **Leaf** is node that does not split further. It represents a final decision or prediction made by the model. 
+
+The **max_depth** hyperparameter limits the maximum depth of the tree. By setting this parameter, we can control how deep the tree can grow, which helps prevent overfitting by stopping the tree from becoming too complex.
+
+The **min_samples_leaf** hyperparameter specifies the minimum number of samples required to be a leaf node. This means that a node will only be split if it has at least this number of samples. This helps to ensure that the model does not create leaves that are too specific to the training data, which can also help prevent overfitting.
+
+The maximum depth is necessary. We saw that the initial model was overfitting, so limiting the depth of the tree helps to create a more generalizable model. 
+The minimum samples per leaf could be helpful in general, but in our case, we see in the image that all leaves have more than 20 samples, so this hyperparameter does not have any effect here.
+
+The colors of each node represent the majority class of the samples that reach that node. The color intensity indicates the proportion of samples belonging to that class. A darker color means a higher proportion of samples from that class, while a lighter color indicates a more mixed distribution of classes.
+
+
 > Q1.6: Choose one of the nodes. Explain precisely the information given on each line of text in this node.
+
+In this node, we can see the following information:
+The first line is the condition to make a decision and used to split the data at this node and go either to the left or right child node. 
+The second line "gini = 0.47" indicates the Gini impurity of the samples at this node. Here it is 0.47, which means that the node contains a mix of classes with no classes dominating.
+The third line "samples = 5570" indicates the total number of samples that reach this node during the training process.
+The fourth line "value = [3606, 125, 1839]" is the number of samples per class at this node. Here, there are 3606 samples of class `n`, 125 samples of class `r`, and 1839 samples of class `w`.  
+Finally, the last line "class = n" indicates the majority class at this node. The model predicts class `n` for samples that reach this node.
+
+![Node](image.png)
+
 
 > Q1.7: Does model 2 still have the same problem as model 1? Explain based on the classification reports and the confusion matrices.
 
+We can see that model 2 performs better than model 1 on both the training and test sets. We no longer have a perfect accuracy of 1.0 on the training set. We now have accuracy ~81% on either set and the precision, recall and f1-score are more balanced across the classes. This indicates that the model is generalizing better to unseen data and is not overfitting as much as model 1.
+
+
 > Q1.8: One of the class seems more difficult to predict than others? Which one? Where could this difficulty come from in your opinion?
 
+Even with the improvements in model 2, class `r` remains more difficult to predict than the others. We can see in the confusion matrix that a significant number of samples from class `r` are misclassified as either class `n` or class `w`.
+This can be explained by imbalanced class distribution in the dataset, where class `r` has significantly fewer samples compared to the other classes. Which means that the model has less data to learn the patterns associated with class `r`. 
+
 > Q1.9: What does this hyperparameter do? Explain giving examples from this dataset.
+The hyperparameter `class_weight='balanced'` adjusts the weights of each class inversely proportional to their frequencies in the input data (source: scikit-learn documentation).
+This means that classes with fewer samples will be given more weight during the training process, while classes with more samples will be given less weight. This helps to address the issue of class imbalance for class `r`, which, as seen previously, in less represented in the dataset compared to classes `n` and `w`.
+
 
 > Q1.10: Compare results from model 2 and model 3. What are the pros and cons of each of them?
+
+Pros and cons of:
+Model 2 :
+- Pros: Higher overall accuracy, better performance on the majority class w and good for n.
+- Cons: Struggles to detect the minority class r because of class imbalance.
+
+Model 3:
+- Pros: Improved recall for class r, making the classifier more balanced across classes.
+- Cons: Decreased overall accuracy and reduced performance on the majority class w.
+
+Model 2 achieves higher overall accuracy and performs better on the majority class w, but it struggles to detect the minority class r. It is biased because the training set is unbalanced. With model 3 and thanks to class_weight='balanced' it greatly improves the recall of class r, making the classifier better to detect this minority class. But this reduces the performance on the majority class.
+
 
 ## 2. Random Forest
 
