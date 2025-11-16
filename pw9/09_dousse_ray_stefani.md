@@ -69,6 +69,7 @@ Even with the improvements in model 2, class `r` remains more difficult to predi
 This can be explained by imbalanced class distribution in the dataset, where class `r` has significantly fewer samples compared to the other classes. Which means that the model has less data to learn the patterns associated with class `r`. 
 
 > Q1.9: What does this hyperparameter do? Explain giving examples from this dataset.
+
 The hyperparameter `class_weight='balanced'` adjusts the weights of each class inversely proportional to their frequencies in the input data (source: scikit-learn documentation).
 This means that classes with fewer samples will be given more weight during the training process, while classes with more samples will be given less weight. This helps to address the issue of class imbalance for class `r`, which, as seen previously, in less represented in the dataset compared to classes `n` and `w`.
 
@@ -76,6 +77,7 @@ This means that classes with fewer samples will be given more weight during the 
 > Q1.10: Compare results from model 2 and model 3. What are the pros and cons of each of them?
 
 Pros and cons of:
+
 Model 2 :
 - Pros: Higher overall accuracy, better performance on the majority class w and good for n.
 - Cons: Struggles to detect the minority class r because of class imbalance.
@@ -212,7 +214,7 @@ First of all, the accuracy on the test set is 86.03%, which is quite close to th
 
 That said, we can see that the model does not perform equally well across all classes. The 'r' class has a notably lower precision (35.96%) and recall (59.04%) on the test set compared to the 'n' and 'w' classes. When taking a look at the confusion matrix of the test set, we can see that 10% of the 'r' class samples are misclassified as 'n' and 31% as 'w'. This suggests that the model struggles to distinguish the 'r' class from the other two classes, which could be due to the fact that the classes are imbalanced (5365 n, 1074 r, 9767 w in the training set). 
 
-The model using Random Forest performs better than a single classification tree. This is due to the fact that Random Forests aggregate the predictions of multiple trees, which helps to reduce overfitting and improve generalization. In contrast, a single classification tree can easily overfit the training data, leading to poorer performance on unseen data.
+The model using Random Forest performs better than a single classification tree. This is due to the fact that Random Forests aggregate the predictions of multiple trees, which helps to reduce overfitting. In contrast, a single classification tree can easily overfit the training data, leading to poorer performance on unseen data. However, it is interesting to note that while the Random Forest improves overall accuracy and performance on all classes, we still see that the 'r' class remains challenging to classify accurately.
 
 The main challenge of this dataset appears to be the class imbalance, particularly with the 'r' class being underrepresented compared to the 'n' and 'w' classes. This imbalance can make it difficult for the model to learn to accurately classify the minority class, leading to lower precision and recall for that class.
 
