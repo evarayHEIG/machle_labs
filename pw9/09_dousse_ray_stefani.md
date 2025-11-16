@@ -55,8 +55,9 @@ The third line "samples = 5570" indicates the total number of samples that reach
 The fourth line "value = [3606, 125, 1839]" is the number of samples per class at this node. Here, there are 3606 samples of class `n`, 125 samples of class `r`, and 1839 samples of class `w`.  
 Finally, the last line "class = n" indicates the majority class at this node. The model predicts class `n` for samples that reach this node.
 
-![Node](image.png)
-
+<div style="text-align: center;">
+<img src="image.png" alt="Node" width="150"/>
+</div>
 
 > Q1.7: Does model 2 still have the same problem as model 1? Explain based on the classification reports and the confusion matrices.
 
@@ -208,7 +209,9 @@ weighted avg   0.885410  0.860316  0.869956  4052.000000
 
 And the following confusion matrices for the train and test sets:
 
-![](./figures/rf_confusion_matrix.png)
+<div style="text-align: center;">
+<img src="./figures/rf_confusion_matrix.png" alt="rf_confusion_matrix" width="600"/>
+</div>
 
 First of all, the accuracy on the test set is 86.03%, which is quite close to the 87.58% accuracy on the training set. This indicates that the model generalizes well to unseen data, as there is not a significant drop in performance from the training to the test set.
 
@@ -276,7 +279,10 @@ accuracy       0.911155  0.911155  0.911155     0.911155
 macro avg      0.856863  0.764491  0.795088  4052.000000
 weighted avg   0.905726  0.911155  0.905058  4052.000000
 ```
-![](./figures/gb_confusion_matrix.png)
+
+<div style="text-align: center;">
+<img src="./figures/gb_confusion_matrix.png" alt="gb_confusion_matrix" width="600"/>
+</div>
 
 The explanation of how Gradient Boosting focuses on correction errors is further illustrated in the following example.
 
@@ -285,17 +291,9 @@ The explanation of how Gradient Boosting focuses on correction errors is further
     First, we train a decision tree (f1) using all the data and features.  
     Then, we calculate its predictions f1(x) and compare them to the ground truth y:
 
-    $$
-    \begin{array}{c|c|c|c}
-    x & y & f_1(x) & y - f_1(x) \\
-    \hline
-    x_1 & 10 & 9  & 1  \\
-    x_2 & 11 & 13 & -2 \\
-    x_3 & 13 & 15 & -2 \\
-    x_4 & 20 & 25 & -5 \\
-    x_5 & 22 & 31 & -9 \\
-    \end{array}
-    $$
+<div style="text-align: center;">
+<img src="./figures/ex1.png" width="150"/>
+</div>
 
 2. The Second Tree
 
@@ -303,17 +301,9 @@ As we see, the first tree seems off. How can we improve it? An intuitive strateg
 
 To evaluate the adequacy of f1 + f2, we compute the new residuals y − f1(x) − f2(x):
 
-$$
-\begin{array}{c|c|c|c|c}
-x & y & f_1(x) & f_2(x) & y - f_1(x) - f_2(x) \\
-\hline
-x_1 & 10 & 9  & 0.5 & 0.5 \\
-x_2 & 11 & 13 & 1   & -3  \\
-x_3 & 13 & 15 & -1  & -1  \\
-x_4 & 20 & 25 & -2  & -3  \\
-x_5 & 22 & 31 & -4  & -5  \\
-\end{array}
-$$
+<div style="text-align: center;">
+<img src="./figures/ex2.png" width="200"/>
+</div>
 
 
 If the residuals are sufficiently small, we stop here and use f1 + f2 as our model.  
@@ -321,10 +311,6 @@ If not, we fit another tree f3 to predict the remaining residuals and continue. 
 
 On the other hand, if the data is noisy, Gradient Boosting can overfit more easily than Random Forest due to its focus on minimizing errors from previous trees.
 
-Note: This example has been taken as is from the following source:
-
-[baeldung](https://www.baeldung.com/cs/gradient-boosting-trees-vs-random-forests)
-
-And explained in more detail in the following source:
-
-[geeksforgeeks](https://www.geeksforgeeks.org/machine-learning/gradient-boosting-vs-random-forest/#robustness-to-noise-of-gradient-boosting-vs-random-forest)
+Note: 
+- This example has been taken as is from the following source: [baeldung](https://www.baeldung.com/cs/gradient-boosting-trees-vs-random-forests)
+- And is explained in more detail in the following source: [geeksforgeeks](https://www.geeksforgeeks.org/machine-learning/gradient-boosting-vs-random-forest/#robustness-to-noise-of-gradient-boosting-vs-random-forest)
