@@ -114,3 +114,59 @@ By comparing the two plots side by side, we can see how well the network reprodu
 ## 4. Model building
 
 ## 5. Building MLP Models using Keras Library
+
+### 1. Balanced Dataset with Clear Separation (Blobs)
+
+For this dataset, the decision boundary is extremely simple, and no complex architecture is required. We initially tested a large network, but progressively reduced the model size until reaching a configuration with a single neuron in the hidden layer, which already provided a perfect separation. Increasing depth or width brought no improvement and only increased computation time.
+
+All tests were performed with 100 epochs to ensure fast experimentation. There was no indication that additional epochs would provide any benefit: training and validation losses overlapped from the earliest iterations, and no trend suggested delayed convergence.
+
+#### Best experiments
+
+1. 1 neuron, LR=0.01, momentum=0.99
+   Mean F1 = 1.0
+   The model converges immediately despite its minimal capacity. The boundary is trivial to learn, and high momentum accelerates gradient descent without instability.
+
+#### Analysis
+The dataset is too simple to differentiate models. Even extremely small architectures achieve perfect classification. Additional training epochs did not reveal any new tendencies, confirming the low complexity of the decision boundary.
+
+### 2. Balanced Dataset with Mixed or Overlapping Classes (Circles)
+
+The circular dataset introduces a non-linear boundary and moderate overlap, making the hyperparameters much more influential. Models with insufficient capacity underfit, whereas deeper or wider networks capture the curved boundary effectively.
+
+#### Best experiments
+  1. 16 neurons - 8 neurons - 1 neuron, LR=0.01, momentum=0.99
+    Mean F1 = 0.998
+    Adding a second hidden layer increases expressiveness and yields almost perfect performance. Loss and validation loss remain close throughout training, with no indication of overfitting.
+
+  2. 16 neurons - 1 neuron, LR=0.01, momentum=0.99
+    Mean F1 = 0.993
+    This architecture provides enough capacity to learn the circular separation. High momentum improves convergence speed and smooths oscillations inherent to tanh activations.
+
+  3. 16 neurons - 1 neuron, LR=0.01, momentum=0.8
+  Mean F1 = 0.958
+  Lower momentum reduces the optimizer’s ability to escape shallow regions of the loss landscape, slowing convergence. The model still performs well but requires more epochs to stabilize.
+
+#### Analysis
+The dataset requires non-linear expressiveness. A single small hidden layer is sufficient but deeper architectures converge faster. Overfitting does not appear even with larger configurations because the dataset is relatively clean and balanced.
+
+### 3. Unbalanced Dataset (90/10) with Overlap and Noise
+
+The unbalanced dataset is significantly more challenging due to the combination of class imbalance, noise, and overlapping distributions. Unlike the previous datasets, hyperparameters have a critical effect on the classifier’s ability to recover the minority class.
+
+#### Best experiments
+
+  1. 32 neurons - 16 neurons - 1 neuron, LR=0.005, momentum=0.5
+  Mean F1 ≈ 0.43
+  This configuration captures part of the minority structure but remains biased toward the majority class. Loss converges smoothly, but validation metrics show that the decision boundary remains conservative.
+
+  2. 32 neurons - 32 neurons - 1 neuron, LR=0.005, momentum=0.5
+  Mean F1 ≈ 0.43
+  Increasing network width improves representation capacity but does not substantially improve minority recall. Without explicit class weighting, the optimizer remains biased toward the majority. Convergence is stable but plateaus early.
+
+  3. 32 neurons - 16 neurons - 1 neuron, LR=0.01, momentum=0.99
+  Mean F1 = 0.0
+  The combination of high learning rate and high momentum causes divergence. The model collapses to predicting only the majority class. Loss decreases extremely slowly and validation loss stagnates, demonstrating a poor configuration for this data regime.
+
+#### Analysis
+This dataset highlights the limitations of tanh + MSE + SGD when facing severe imbalance. The models converge, but the minority class is under-represented in the gradient updates, yielding low F1 scores. No overfitting is observed because the network never reaches a high-capacity regime on the minority.
