@@ -81,6 +81,33 @@ If the classes overlap, the perceptron struggles to find a linear decision bound
 If it is not possible to separate the classes with a single line, the perceptron fails to find a suitable decision boundary. As we can see in the plot of the error, it seems like the error gets stuck in a local minimum, where further adjustments to the weights do not lead to a reduction in error. The perceptron cannot escape this local minimum because it is limited to linear decision boundaries, and thus cannot effectively classify the non-linearly separable data. This problem is impossible to solve with only one decision boundary. The solution would be to use a more complex model, such as a multi-layer perceptron, which can learn non-linear decision boundaries.
 
 ## 2. Backpropagation
+The MLP class implements a simple multi-layer perceptron with either a sigmoid or tanh activation function. The network architecture is defined by a list specifying the number of neurons per layer. Weight matrices are initialized with small random values, and each layer includes an additional bias term.
+
+Training is performed using stochastic gradient descent with backpropagation. For each randomly selected training sample, the network computes layer activations (forward pass), evaluates the error with respect to the target, and propagates this error backward to compute the deltas used to update the weights. A momentum term is included to stabilize learning and reduce oscillations. The mean squared error is recorded at each epoch and can also be evaluated on a test set.
+
+**Showing ways to output the network**
+The first way to inspect the output of the trained network is to look at how its raw activation values are distributed for each target class.
+
+The network outputs values close to -1 for class A and close to +1 for class B, with some variability due to overlapping regions in the dataset. The boxplots shows that the two distributions are well separated, but not perfectly. A few outliers appear when the network is uncertain about certain samples, which must corresponds to points located near the class boundary.
+<div style="text-align: center;">
+<img src="./figures/boxplot.png" width="400"/>
+</div>
+
+
+The second way to visualize the network output is to show how the MLP responds across the entire 2-dimensional input space. A grid of points is fed through the network, and the output values are displayed as a continuous color map. Darker colors correspond to outputs near one class, while brighter colors correspond to the opposite class. The transition between the two regions reveals the non-linear decision boundary learned by the network.
+
+The scatter points representing the training samples are overlaid on top of the color map. Blue points are mostly in the region where the network output is low, and red points in the region where the output is high. Samples located near the transition zone correspond to the ambiguous area where the two classes overlap, which explains why their predicted values can vary more.
+<div style="text-align: center;">
+<img src="./figures/2d_feature.png" width="400"/>
+</div>
+
+
+These two scatter plots show the original class labels and the predicted outputs at the same 2D coordinates. The left plot displays the true classes, while the right plot shows how the MLP assigns each point to a class based on the sign of its output.
+
+By comparing the two plots side by side, we can see how well the network reproduces the target distribution in the feature space. Most points have their correct color on the right plot, meaning that the MLP correctly classifies most of the dataset. Differences between the two plots occur, again, mostly near the boundary between the two classes, where points are harder to classify because the classes overlap. 
+<div style="text-align: center;">
+<img src="./figures/target_vs-predicted.png" width="400"/>
+</div>
 
 ## 3. Cross validation
 
