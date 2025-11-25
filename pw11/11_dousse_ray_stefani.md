@@ -20,6 +20,20 @@
 
 ## 2. Digit recognition from features of the input data
 
+### First Model 
+
+### Second Model
+
+### Third Model
+
+### Questions
+
+> a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.
+
+> b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
+
+> c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
+
 ## 3. Convolutional neural network digit recognition
 
 In this section, we implement three different CNN architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. All the following models use pixels from 28x28 images as input data, which represents an input size of 784 features. The possible outputs are the digits from 0 to 9, resulting in 10 output classes.
