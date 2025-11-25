@@ -152,10 +152,10 @@ The algorithm used by default to optimize the weights is RMSprop. RMSprop is an 
 
 where:
 
-- E[g] is the moving average of the squared gradients
-- δc/δw is the gradient of the cost function with respect to the weight
-- η is the learning rate
-- β is the moving average parameter
+- $E[g]$ is the moving average of the squared gradients
+- $\frac{\delta c}{\delta w}$ is the gradient of the cost function with respect to the weight
+- $\eta$ is the learning rate
+- $\beta$ is the moving average parameter
 
 > What are the parameters (arguments) being used by that algorithm?
 
@@ -186,14 +186,12 @@ keras.optimizers.RMSprop(
 
 The cost function used is the categorical cross-entropy loss function. This function is commonly used for multi-class classification problems, where the goal is to predict the class label of an input from multiple possible classes. The categorical cross-entropy loss measures the difference between the predicted probability distribution and the true distribution (one-hot encoded labels) and penalizes incorrect predictions more heavily. The equation for the categorical cross-entropy loss is given by:
 
-```
-L = - ∑(y * log(y_pred))
-```
+$$L = -\sum(y \cdot \log(\hat{y}))$$
 
 where:
-- L is the loss
-- y is the true label (one-hot encoded)
-- y_pred is the predicted probability distribution
+- $L$ is the loss
+- $y$ is the true label (one-hot encoded)
+- $\hat{y}$ is the predicted probability distribution
 
 > How did you create the training, validation and test datasets.
 
