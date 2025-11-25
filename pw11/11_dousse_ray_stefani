@@ -22,6 +22,108 @@
 
 ## 3. Convolutional neural network digit recognition
 
+In this section, we implement three different CNN architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. All the following models use pixels from 28x28 images as input data, which represents an input size of 784 features. The possible outputs are the digits from 0 to 9, resulting in 10 output classes.
+
+The training set consists of 50000 samples, the validation set of 10000 samples, and the test set of 10000 samples. This is the repartition used by default in the provided notebook.
+
+### First Model 
+
+The first analyzed model is the model given by default in the notebook. It has the following architecture:
+
+ ```
+ _________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ l0 (InputLayer)             [(None, 28, 28, 1)]       0         
+                                                                 
+ l1 (Conv2D)                 (None, 28, 28, 9)         234       
+                                                                 
+ l1_mp (MaxPooling2D)        (None, 14, 14, 9)         0         
+                                                                 
+ l2 (Conv2D)                 (None, 14, 14, 9)         2034      
+                                                                 
+ l2_mp (MaxPooling2D)        (None, 7, 7, 9)           0         
+                                                                 
+ l3 (Conv2D)                 (None, 7, 7, 16)          1312      
+                                                                 
+ l3_mp (MaxPooling2D)        (None, 3, 3, 16)          0         
+                                                                 
+ flat (Flatten)              (None, 144)               0         
+                                                                 
+ l4 (Dense)                  (None, 25)                3625      
+                                                                 
+ l5 (Dense)                  (None, 10)                260       
+                                                                 
+=================================================================
+Total params: 7465 (29.16 KB)
+Trainable params: 7465 (29.16 KB)
+Non-trainable params: 0 (0.00 Byte)
+ ```
+
+ - Batch size: 128
+ - Epochs: 5 
+ - Optimizer: RMSprop
+
+ The accuracy of this model on the train set is about 0.9742, which is a strong start. As we can see on the history plot below, the model is not overfitting and the validation loss is still decreasing at the end of the training, so we can try to increase the number of epochs to improve the performance.
+
+ <div style="text-align:center">
+    <img src="figures/3_1_history_plot.png" alt="drawing" style="width:300"/>
+</div> 
+
+### Second Model
+
+For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model. The history plot and confusion matrix are shown below:
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/3_2_history_plot.png" alt="drawing" style="width:300"/>
+    <img src="figures/3_2_cm.png" alt="drawing" style="width:300"/>
+</div> 
+
+### Third Model
+
+For the third model, the goal is to try a more drastic change in the architecture like adding more filters, changing the kernel size, adding more convolutional layers, changing the batch size, or adding batch normalization layers. In the table below, we summarize the different architectures we tried as well as their performance on the test set and our observations regarding overfitting. 
+
+| Test Accuracy | Architecture                                                                                                 | Observations                       |
+|---------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| 0.9944        | 32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 128                                                   | Overfitting quickly                |
+| 0.9922        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 128                                                   | Overfitting still present but less |
+| 0.9936        | 32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 256                                                   | Almost no overfitting              |
+| **0.9938**        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)                                 | **Almost no overfitting**              |
+| 0.9923        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch normalization after each convolution layer, batch size 128 | Overfitting still present but less |
+| 0.9915        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3 → 256 filters, 3x3, batch size 128                                | Overfitting very quickly           |
+
+The best performing model is the one with 32 filters of size 3x3 in the first convolutional layer, followed by 64 filters of size 3x3 in the second convolutional layer, and finally 128 filters of size 3x3 in the third convolutional layer. We also used a batch size of 256 and the SGD optimizer with a momentum of 0.9. This model achieved an accuracy of 0.9938 on the test set, which is a significant improvement over the previous models. The test score is 0.0212. The history plot and confusion matrix are shown below:
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/3_33_history_plot.png" alt="drawing" style="width:300"/>
+    <img src="figures/3_33_cm.png" alt="drawing" style="width:300"/>
+</div> 
+
+### Questions
+
+> a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.
+
+The selected neural network topology is the third model described above.
+
+- **Inputs**: The input to the model is a grayscale image of size 28x28 pixels. Each pixel is represented by a single value (intensity) ranging from 0 to 255. Therefore, the total number of input features is 28 * 28 = 784.
+- **Outputs**: The output of the model is a probability distribution over 10 classes, corresponding to the digits 0 to 9. Therefore, there are 10 output neurons in the final dense layer, each representing the probability of the input image belonging to one of the digit classes.
+
+> b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
+
+We will go through the calculation of the number of weights for each layer in the selected model:
+- **First Convolutional Layer (Conv2D with 32 filters of size 3x3)**: (3 * 3 * 1) * 32 + 32 = 320
+- **Second Convolutional Layer (Conv2D with 64 filters of size 3x3)**: (3 * 3 * 32) * 64 + 64 = 18,496
+- **Third Convolutional Layer (Conv2D with 128 filters of size 3x3)**: (3 * 3 * 64) * 128 + 128 = 73,856
+- **First Dense Layer (Dense with 25 neurons)**: (3 * 3 * 128) * 25 + 25 = 28,825
+- **Second Dense Layer (Dense with 10 neurons)**: (25) * 10 + 10 = 260
+- **Total number of parameters in the model**: 320 + 18,496 + 73,856 + 28,825 + 260 = 121,757
+
+Basically, we have:
+- For convolutional layers: (filter_height * filter_width * input_channels) * number_of_filters + number_of_filters (for biases)
+- For dense layers: (number_of_input_neurons) * (number_of_output_neurons) + number_of_output_neurons (for biases)
+
+> c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
+
 ## 4. Chest X-ray to detect pneumonia
 
 > Train a CNN for the chest x-ray pneumonia recognition. In order to do so, complete the code to reproduce the architecture plotted in the notebook. Present the confusion matrix, accuracy and F1-score of the validation and test datasets and discuss your results.
