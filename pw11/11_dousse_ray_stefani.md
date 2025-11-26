@@ -276,6 +276,33 @@ Now, let's take a look at the confusion matrix of the third model. We can see th
 
 > Train a CNN for the chest x-ray pneumonia recognition. In order to do so, complete the code to reproduce the architecture plotted in the notebook. Present the confusion matrix, accuracy and F1-score of the validation and test datasets and discuss your results.
 
+In this final part, a convolutional neural network (CNN) was trained to classify chest X-ray images into normal and pneumonia. The dataset contains highly imbalanced classes, so class weights were computed to compensate for the lower number of normal samples. All images were converted to grayscale and resized to 128×128 before training.
+The CNN architecture follows the structure provided in the notebook: a sequence of convolution + max-pooling blocks, followed by a flattening layer and two dense layers, ending with a sigmoid output for binary classification.
+
+**Validation Results**
+
+The validation set is very small (16 images), and the model correctly classified all samples:
+
+- Confusion matrix:
+    - Normal: 8/8 — Pneumonia: 8/8
+- Accuracy: 1.0
+- F1-score: 1.0
+
+This perfect score isn't very meaningful due to the tiny validation set size.
+
+**Test Results**
+On the much larger test set (624 images), performance is more representative:
+
+- Confusion matrix:
+    - Normal -> predicted normal: 103 and predicted pneumonia: 131
+    - Pneumonia -> predicted normal: 3 and predicted pneumonia: 387
+- Accuracy: 0.78
+- F1-score: 0.85
+
+The model detects pneumonia very well (few false negatives), but it often misclassifies normal lungs as pneumonia. This is probably due to the class imbalance, the model becomes biased toward the majority class.
+
+We can say that overall, the CNN generalizes quite well given the difficulty of the dataset and the imbalance between classes. It is more sensible to pneumonia which could be desirable in a medical context, but the number of false positives suggests that additional improvements like data augmentation or more advanced architectures could be beneficial.
+
 ## General questions
 
 ### Question 1
