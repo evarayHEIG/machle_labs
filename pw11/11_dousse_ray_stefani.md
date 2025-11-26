@@ -3,20 +3,144 @@
 #### authors: Rafael Dousse, Massimo Stefani, Eva Ray
 
 ## 1. Digit recognition from raw data
+This first part is focused on implementing three different architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. The model use the raw data (28x28 pixel intensities) as input features and 10 classes (digits from 0 to 9) as output.
+
+The training set consists of 50000 samples, the validation set of 10000 samples, and the test set of 10000 samples. This is the repartition used by default in the provided notebook.
 
 ### First Model 
+The first model is the architecture provided in the notebook. It is a simple multilayer perceptron. Here is the architecture:
+
+ ```
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense (Dense)               (None, 300)               235500    
+                                                                 
+ dense_1 (Dense)             (None, 10)                3010      
+                                                                 
+=================================================================
+Total params: 238510 (931.68 KB)
+Trainable params: 238510 (931.68 KB)
+Non-trainable params: 0 (0.00 Byte)
+``` 
+With: 
+- Batch size: 128
+- Epochs: 5 
+- Optimizer: RMSprop
+
+We already obtain an accuracy of about 0.9801 on the training set, 0.9803 on the validation set and 0.9801 on the test set. The learning curves show, continuously decreasing training loss and validation loss also decreasing, with almost no overfitting It shows already good performance for a simple architecture. 
+We can see with the confusion matrix that Errors are rare but mainly occur between digits with similar shapes:
+
+ <div style="text-align:center; flex-direction: row;">
+    <img src="figures/1_1_history_plot.png" alt="drawing" style="width:300"/>
+    <img src="figures/1_1_cm.png" alt="drawing" style="width:300"/>
+</div> 
+
 
 ### Second Model
+The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. The architecture is as follows:
+
+ ```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense (Dense)                   │ (None, 300)            │       235,500 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 300)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 10)             │         3,010 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 238,510 (931.68 KB)
+ Trainable params: 238,510 (931.68 KB)
+ Non-trainable params: 0 (0.00 B)
+ ```
+We also reduce the batch size to 64 and increase the number of epochs to 50.
+The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.
+
+The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.
+ 
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/1_2_history_plot.png" alt="drawing" style="width:300"/>
+    <img src="figures/1_2_cm.png" alt="drawing" style="width:300"/>
+</div> 
+
+![alt text](image.png)
 
 ### Third Model
+The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:
+```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense_15 (Dense)                │ (None, 1000)           │       785,000 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_9 (Dropout)             │ (None, 1000)           │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_16 (Dense)                │ (None, 10)             │        10,010 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+Total params: 795,010 (3.03 MB)
+Trainable params: 795,010 (3.03 MB)
+Non-trainable params: 0 (0.00 B)
+```
+
+We tried adding more layers, but it did not improve the performance, so we kept only one hidden layer with more neurons. The batch size is still 64 and the number of epochs is 30.
+
+The train accuracy is around 0.9957, validation accuracy is around 0.9840 and the test accuracy around 0.985. As said before, we tried with more layers and other parameters, but the performance did not improve. This model has the best performance of the three models, but the improvement is quite small compared to the second model. We can also see on the learning curves that the model tends to overfit a little as the gap between training and validation loss increases over epochs. 
+
+ <div style="text-align:center; flex-direction: row;">
+    <img src="figures/1_3_history_plot.png" alt="history_plot" style="width:300"/>
+    <img src="figures/1_3_cm.png" alt="cm" style="width:300"/>
+</div> 
 
 ### Questions
 
 > a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.
-
+ 
+The input of all three models consists of 784 features, corresponding to the 28×28 pixel intensity values of each MNIST image. The output layer always contains 10 neurons, one per digit class (0–9), using a `softmax` activation function.
+Each model differs only in the number of hidden units and dropout layers:
+- Model 1: 784 -> 300 -> 10
+- Model 2: 784 -> 300 -> Dropout(0.5) -> 10
+- Model 3: 784 -> 1000 -> Dropout(0.5) -> 10
+  
 > b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
 
+We compute weights as: $weights = (inputs + 1) × neurons$ where the "+1" corresponds to the bias term for each neuron.
+**Model 1** 
+*Input -> Hidden (784 -> 300)*
+$(784+1)×300=785×300=235 500$
+*Hidden -> Output (300 -> 10)*
+$(300+1)×10=301×10=3 010$
+$Total\ weights = 238 510$
+
+**Model 2**:
+
+Dropout does not add parameters.
+So Model 2 has the exact same number of weights as Model 1:
+$Total\ weights = 238 510$
+
+**Model 3**: 
+
+*Input -> Hidden (784 -> 1000)*
+$(784+1)×1000=785000$
+*Hidden -> Output (1000 -> 10)*
+$(1000+1)×10=1001×10=10010$
+$Total\ weights = 795 010$
+
+
 > c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
+
+|Model|	Validation Accuracy|	Test Accuracy|	Remarks|
+|-----|---------------------|--------------|--------|
+|1    |	~0.980              |	~0.980     | Good baseline, very limited overfitting.|
+|2    |	~0.982              |	~0.983     | Slight improvement thanks to dropout + longer training.|
+|3    |	~0.984              |	~0.985     | Best accuracy, but only marginally better. Overfitting starts to appear.|
+Increasing the number of neurons improves performance, but the gains become very small because MNIST is a relatively simple dataset and a shallow MLP already performs very well.
+
+Across all three confusion matrices, the same patterns appear:
+`3-5`, `5-3`, `4-9`, `9-4`, `3-9` and `2-7` are the most confused digit pairs.
+The pairs might be confused due to similar curvature and orientation or share similar straight lines. For example, some handwritten 3 can look like a 5. For the 4 and the 9 pair, the top part of the 4 can be mistaken for the loop of the 9. 
+
+Model 3 reduces the number of mistakes but does not eliminate these specific ambiguous cases.
 
 ## 2. Digit recognition from features of the input data
 
