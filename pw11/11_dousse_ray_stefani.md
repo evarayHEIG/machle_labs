@@ -144,19 +144,235 @@ Model 3 reduces the number of mistakes but does not eliminate these specific amb
 
 ## 2. Digit recognition from features of the input data
 
+All the models will be integrated with a dropout layer after the hidden layer with a dropout rate of 0.5 to prevent overfitting.
+
 ### First Model 
+
+#### 300 neurons in the hidden layer
+
+```
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense (Dense)               (None, 300)               117900    
+
+ dropout_1 (Dropout)         (None, 300)               0         
+                                                                 
+ dense_1 (Dense)             (None, 10)                3010      
+                                                                 
+=================================================================
+Total params: 120910 (472.30 KB)
+Trainable params: 120910 (472.30 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+```
+
+With: 
+- Batch size: 128
+- Epochs: 5 
+- Optimizer: RMSprop
+
+#### Results
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/2_1_loss.png" alt="drawing" style="width:300"/>
+    <img src="figures/2_1_matrix.png" alt="drawing" style="width:300"/>
+</div> 
+
+```
+Test score: 0.06252056360244751
+Test accuracy: 0.9794999957084656
+```
+
+##### Capacity.
+
+The model contains ~121k parameters, which is significantly high considering the simplicity of the MNIST-HOG feature space. This parameter count results from the dense projection of the input HOG vector into a 300-unit latent space, plus the output head. Such capacity is already sufficient to nearly saturate MNIST performance.
+
+##### Performance.
+
+```
+Test score: 0.06717927008867264
+Test accuracy: 0.9781000018119812
+```
+
+The network converges efficiently and already reaches an excellent accuracy. However, the parameter-efficiency ratio is poor: we spend 121k parameters for a marginal advantage over slimmer networks. Given the assignment objective, this model is clearly over-provisioned.
+
 
 ### Second Model
 
+#### 128 neurons in the hidden layer
+
+```
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_2 (Dense)             (None, 128)               50304     
+                                                                 
+ dropout_1 (Dropout)         (None, 128)               0         
+                                                                 
+ dense_3 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 51594 (201.54 KB)
+Trainable params: 51594 (201.54 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+```
+
+With: 
+- Batch size: 128
+- Epochs: 5 
+- Optimizer: RMSprop
+
+
+#### Results
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/2_2_loss.png" alt="drawing" style="width:300"/>
+    <img src="figures/2_2_matrix.png" alt="drawing" style="width:300"/>
+</div>
+
+##### Capacity.
+
+This architecture drops to ~52k parameters, reducing the model size by more than half while keeping the same conceptual structure.
+
+##### Performance.
+
+```
+Test score: 0.07203482836484909
+Test accuracy: 0.9771999716758728
+```
+
+The accuracy is essentially comparable to Model 1 despite the massive parameter reduction.
+However, the loss curve shows the training had not plateaued at epoch 5, indicating that the optimization is incomplete. This is consistent with your remark that the curve continues to descend.
+
 ### Third Model
+
+#### 128 neurons in the hidden layer with 8 epochs
+
+```
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_2 (Dense)             (None, 128)               50304     
+                                                                 
+ dropout_1 (Dropout)         (None, 128)               0         
+                                                                 
+ dense_3 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 51594 (201.54 KB)
+Trainable params: 51594 (201.54 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+```
+
+With: 
+- Batch size: 128
+- Epochs: 8 
+- Optimizer: RMSprop
+
+
+
+#### Results
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/2_3_loss.png" alt="drawing" style="width:300"/>
+    <img src="figures/2_3_matrix.png" alt="drawing" style="width:300"/>
+</div> 
+
+##### Capacity.
+
+The model has the same ~52k parameters as Model 2.
+
+##### Performance.
+
+```
+Test score: 0.06717927008867264
+Test accuracy: 0.9781000018119812
+```
+
+By extending training to 8 epochs, you obtain a lower loss and higher accuracy than Model 2, and near Model 1 despite using less than half the parameters. The convergence curves confirm that additional epochs improve generalization without inducing overfitting at this scale.
+
 
 ### Questions
 
 > a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.
 
+The model processes HOG feature vectors extracted from the MNIST images. 
+
+- Inputs:
+The network receives a vector of size hog_size.
+Each input dimension corresponds to one HOG coefficient computed from the gradient histogram representation.
+
+- Outputs:
+The final dense layer contains 10 units, one per digit class (0–9).
+A softmax activation is used to produce normalized class probabilities.
+
+- Topology:
+The selected architecture is a shallow MLP composed of:
+
+    - One fully-connected hidden layer with 128 neurons (ReLU)
+
+    - One dropout layer
+
+    - One output dense layer with 10 neurons (softmax)
+
+    ```
+    Dense(128, input_shape=(hog_size,), activation='relu')
+    Dropout(0.5)
+    Dense(10, activation='softmax')
+    ```
+
 > b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
 
+    - hog_size = dimensionality of the input vector
+
+    - H = 128 = number of hidden units
+
+    - C = 10 = number of classes
+
+- Weights between input layer and hidden layer
+Each hidden neuron has hog_size incoming weights plus one bias.
+
+    - Total parameters: (hog_size × 128) + 128
+
+- Weights between hidden layer and output layer
+Each of the 10 output neurons receives 128 weights plus one bias.
+
+    - Total parameters: (128 × 10) + 10
+
+- Total number of parameters
+
+```
+Total = (hog_size × 128 + 128) + (128 × 10 + 10) = 128 × (hog_size + 1) + 10 × (128 + 1)
+```
+
 > c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
+
+|Model|	Validation Accuracy|	Test Accuracy|	Remarks|
+|-----|---------------------|--------------|--------|
+|1    |	~0.979              |	~0.979     | High capacity (~121k params) leads to strong performance but poor parameter efficiency.|
+|2    |	~0.977              |	~0.977     | Slimmer model (~52k params) achieves comparable accuracy, but training incomplete at 5 epochs.|
+|3    |	~0.978              |	~0.978     | Same capacity as Model 2, but extended training (8 epochs) improves performance close to Model 1.|
+
+All three models achieve strong accuracy around 97.7–97.9% on MNIST-HOG, demonstrating that even a small MLP can effectively leverage HOG features for digit recognition.
+
+Let's place a threshold of 10 misclassifications to identify frequently confused digit pairs from the confusion matrices.
+
+- Model 1
+    -  He says 5 instead of 3 - 13 times
+    -  He says 4 instead of 9 - 11 times
+
+- Model 2
+    -  He says 9 instead of 4 - 12 times
+    -  He says 9 instead of 7 - 10 times
+
+- Model 3
+    -  He says 9 instead of 4 - 13 times
+    -  He says 3 instead of 5 - 12 times
+
+The misclassifications observed across the three models primarily concern digit pairs that share similar local gradient structures in their HOG representations. The most frequent errors involve confusions between 3 and 5, and between 4 and 9, with additional cases such as 7 being predicted as 9. These pairs exhibit overlapping dominant orientations once the image is reduced to HOG descriptors, which removes fine spatial details and makes certain handwritten styles nearly indistinguishable for a shallow MLP. Increasing the number of parameters (Model 1) or extending the training duration (Model 3) does not fundamentally change the nature of these confusions, indicating that they stem from the feature representation rather than model capacity. As a result, these systematic errors are expected and reflect the intrinsic limitations of using HOG features with a fully connected architecture.
 
 ## 3. Convolutional neural network digit recognition
 
