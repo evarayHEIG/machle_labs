@@ -64,8 +64,6 @@ The final performance for the validation accuracy is around 0.982 and the test a
     <img src="figures/1_2_cm.png" alt="drawing" style="width:300"/>
 </div> 
 
-![alt text](image.png)
-
 ### Third Model
 The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:
 ```
@@ -105,26 +103,27 @@ Each model differs only in the number of hidden units and dropout layers:
 > b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
 
 We compute weights as: $weights = (inputs + 1) × neurons$ where the "+1" corresponds to the bias term for each neuron.
-**Model 1** 
-*Input -> Hidden (784 -> 300)*
-$(784+1)×300=785×300=235 500$
-*Hidden -> Output (300 -> 10)*
-$(300+1)×10=301×10=3 010$
-$Total\ weights = 238 510$
+
+**Model 1** </br>
+*Input -> Hidden (784 -> 300)*</br>
+$(784+1)×300=785×300=235 500$</br>
+*Hidden -> Output (300 -> 10)*</br>
+$(300+1)×10=301×10=3 010$</br>
+$Total\ weights = 238 510$</br>
 
 **Model 2**:
 
 Dropout does not add parameters.
-So Model 2 has the exact same number of weights as Model 1:
+So Model 2 has the exact same number of weights as Model 1:</br>
 $Total\ weights = 238 510$
 
-**Model 3**: 
+**Model 3**: </br>
 
-*Input -> Hidden (784 -> 1000)*
-$(784+1)×1000=785000$
-*Hidden -> Output (1000 -> 10)*
-$(1000+1)×10=1001×10=10010$
-$Total\ weights = 795 010$
+*Input -> Hidden (784 -> 1000)*</br>
+$(784+1)×1000=785000$</br>
+*Hidden -> Output (1000 -> 10)*</br>
+$(1000+1)×10=1001×10=10010$</br>
+$Total\ weights = 795 010$</br>
 
 
 > c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
@@ -178,11 +177,6 @@ With:
     <img src="figures/2_1_loss.png" alt="drawing" style="width:300"/>
     <img src="figures/2_1_matrix.png" alt="drawing" style="width:300"/>
 </div> 
-
-```
-Test score: 0.06252056360244751
-Test accuracy: 0.9794999957084656
-```
 
 ##### Capacity.
 
@@ -507,6 +501,7 @@ The validation set is very small (16 images), and the model correctly classified
 This perfect score isn't very meaningful due to the tiny validation set size.
 
 **Test Results**
+
 On the much larger test set (624 images), performance is more representative:
 
 - Confusion matrix:
@@ -514,6 +509,10 @@ On the much larger test set (624 images), performance is more representative:
     - Pneumonia -> predicted normal: 3 and predicted pneumonia: 387
 - Accuracy: 0.78
 - F1-score: 0.85
+
+<div style="text-align:center; flex-direction: row;">
+    <img src="figures/cm_xray.png" alt="drawing" style="width:300"/>
+</div> 
 
 The model detects pneumonia very well (few false negatives), but it often misclassifies normal lungs as pneumonia. This is probably due to the class imbalance, the model becomes biased toward the majority class.
 
