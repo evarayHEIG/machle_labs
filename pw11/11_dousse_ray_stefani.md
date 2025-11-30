@@ -31,11 +31,10 @@ With:
 We already obtain an accuracy of about 0.9801 on the training set, 0.9803 on the validation set and 0.9801 on the test set. The learning curves show, continuously decreasing training loss and validation loss also decreasing, with almost no overfitting It shows already good performance for a simple architecture. 
 We can see with the confusion matrix that Errors are rare but mainly occur between digits with similar shapes:
 
- <div style="text-align:center; flex-direction: row;">
-    <img src="figures/1_1_history_plot.png" alt="drawing" style="width:300"/>
-    <img src="figures/1_1_cm.png" alt="drawing" style="width:300"/>
-</div> 
-
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/1_1_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/1_1_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Second Model
 The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. The architecture is as follows:
@@ -59,10 +58,11 @@ The training and validation curves show that the training loss decreases steadil
 
 The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.
  
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/1_2_history_plot.png" alt="drawing" style="width:300"/>
-    <img src="figures/1_2_cm.png" alt="drawing" style="width:300"/>
-</div> 
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/1_2_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/1_2_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Third Model
 The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:
@@ -85,10 +85,11 @@ We tried adding more layers, but it did not improve the performance, so we kept 
 
 The train accuracy is around 0.9957, validation accuracy is around 0.9840 and the test accuracy around 0.985. As said before, we tried with more layers and other parameters, but the performance did not improve. This model has the best performance of the three models, but the improvement is quite small compared to the second model. We can also see on the learning curves that the model tends to overfit a little as the gap between training and validation loss increases over epochs. 
 
- <div style="text-align:center; flex-direction: row;">
-    <img src="figures/1_3_history_plot.png" alt="history_plot" style="width:300"/>
-    <img src="figures/1_3_cm.png" alt="cm" style="width:300"/>
-</div> 
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/1_3_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/1_3_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Questions
 
@@ -173,10 +174,10 @@ With:
 
 #### Results
 
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/2_1_loss.png" alt="drawing" style="width:300"/>
-    <img src="figures/2_1_matrix.png" alt="drawing" style="width:300"/>
-</div> 
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/2_1_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/2_1_2_2_lossmatrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ##### Capacity.
 
@@ -221,9 +222,9 @@ With:
 
 #### Results
 
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/2_2_loss.png" alt="drawing" style="width:300"/>
-    <img src="figures/2_2_matrix.png" alt="drawing" style="width:300"/>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/2_2_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/2_2_matrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 
 ##### Capacity.
@@ -270,10 +271,11 @@ With:
 
 #### Results
 
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/2_3_loss.png" alt="drawing" style="width:300"/>
-    <img src="figures/2_3_matrix.png" alt="drawing" style="width:300"/>
-</div> 
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/2_3_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/2_3_matrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ##### Capacity.
 
@@ -414,19 +416,20 @@ Non-trainable params: 0 (0.00 Byte)
 
  The accuracy of this model on the train set is about 0.9742, which is a strong start. As we can see on the history plot below, the model is not overfitting and the validation loss is still decreasing at the end of the training, so we can try to increase the number of epochs to improve the performance.
 
- <div style="text-align:center; flex-direction: row;">
-    <img src="figures/3_1_history_plot.png" alt="drawing" style="width:300"/>
-    <img src="figures/3_1_cm.png" alt="drawing" style="width:300"/>
-</div> 
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/3_1_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/3_1_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Second Model
 
 For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model. The history plot and confusion matrix are shown below:
 
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/3_2_history_plot.png" alt="drawing" style="width:300"/>
-    <img src="figures/3_2_cm.png" alt="drawing" style="width:300"/>
-</div> 
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/3_2_histo3_1_history_plotry_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/3_2_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Third Model
 
@@ -443,10 +446,11 @@ For the third model, the goal is to try a more drastic change in the architectur
 
 The best performing model is the one with 32 filters of size 3x3 in the first convolutional layer, followed by 64 filters of size 3x3 in the second convolutional layer, and finally 128 filters of size 3x3 in the third convolutional layer. We also used a batch size of 256, the SGD optimizer with a momentum of 0.9, dropout layers with a dropout rate of 0.3 after the flatten layer and after the first dense layer and 50 epochs. This model achieved an accuracy of 0.9938 on the test set, which is a significant improvement over the previous models. The test score is 0.0212. The history plot and confusion matrix are shown below:
 
-<div style="text-align:center; flex-direction: row;">
-    <img src="figures/3_33_history_plot.png" alt="drawing" style="width:300"/>
-    <img src="figures/3_33_cm.png" alt="drawing" style="width:300"/>
-</div> 
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/3_33_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src=./figures/3_33_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
 
 ### Questions
 
