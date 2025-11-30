@@ -19,10 +19,8 @@ _________________________________________________________________
  dense_1 (Dense)             (None, 10)                3010      
                                                                  
 =================================================================
-Total params: 238510 (931.68 KB)
-Trainable params: 238510 (931.68 KB)
-Non-trainable params: 0 (0.00 Byte)
-``` 
+```
+
 With: 
 - Batch size: 128
 - Epochs: 5 
@@ -40,15 +38,10 @@ We can see with the confusion matrix that Errors are rare but mainly occur betwe
 The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. 
 
 We also reduce the batch size to 64 and increase the number of epochs to 50.
+
 The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.
 
 The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.
- 
-
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src=./figures/1_2_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src=./figures/1_2_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
 
 ### Third Model
 The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. 
@@ -77,27 +70,9 @@ Each model differs only in the number of hidden units and dropout layers:
 
 We compute weights as: $weights = (inputs + 1) × neurons$ where the "+1" corresponds to the bias term for each neuron.
 
-**Model 1** </br>
-*Input -> Hidden (784 -> 300)*</br>
-$(784+1)×300=785×300=235 500$</br>
-*Hidden -> Output (300 -> 10)*</br>
-$(300+1)×10=301×10=3 010$</br>
-$Total\ weights = 238 510$</br>
-
-**Model 2**:
-
-Dropout does not add parameters.
-So Model 2 has the exact same number of weights as Model 1:</br>
-$Total\ weights = 238 510$
-
-**Model 3**: </br>
-
-*Input -> Hidden (784 -> 1000)*</br>
-$(784+1)×1000=785000$</br>
-*Hidden -> Output (1000 -> 10)*</br>
-$(1000+1)×10=1001×10=10010$</br>
-$Total\ weights = 795 010$</br>
-
+**Model 1**: (784+1)×300 + (300+1)×10 = 235'500 + 3'010 = 238'510
+**Model 2**: Dropout -> pas de paramètres ajoutés -> 238'510
+**Model 3**: (784+1)×1000 + (1000+1)×10 = 785'000 + 10'010 = 795'010
 
 > c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
 
@@ -133,23 +108,13 @@ _________________________________________________________________
  dense_1 (Dense)             (None, 10)                3010      
                                                                  
 =================================================================
-Total params: 120910 (472.30 KB)
-Trainable params: 120910 (472.30 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
 ```
 
-With: 
-- Batch size: 128
-- Epochs: 5 
-- Optimizer: RMSprop
+With:
 
-- Results
-
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src=./figures/2_1_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src=./figures/2_1_2_2_lossmatrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
+    - Batch size: 128
+    - Epochs: 5 
+    - Optimizer: RMSprop
 
 - Capacity.
 
@@ -171,10 +136,11 @@ The network converges efficiently and already reaches an excellent accuracy. How
 
 We have decided to reduce the number of neurons in the hidden layer to 128. 
 
-With: 
-- Batch size: 128
-- Epochs: 5 
-- Optimizer: RMSprop
+With:
+
+    - Batch size: 128
+    - Epochs: 5 
+    - Optimizer: RMSprop
 
 
 - Results
@@ -204,10 +170,11 @@ However, the loss curve shows the training had not plateaued at epoch 5, indicat
 
 We increased the number of epochs to 8 because in the previous model the training was not yet converged at 5 epochs.
 
-With: 
-- Batch size: 128
-- Epochs: 8 
-- Optimizer: RMSprop
+With:
+
+    - Batch size: 128
+    - Epochs: 8 
+    - Optimizer: RMSprop
 
 - Results
 
@@ -246,12 +213,6 @@ A softmax activation is used to produce normalized class probabilities.
 - Topology:
 The selected architecture is a shallow MLP composed of:
 
-    - One fully-connected hidden layer with 128 neurons (ReLU)
-
-    - One dropout layer
-
-    - One output dense layer with 10 neurons (softmax)
-
     ```
     Dense(128, input_shape=(hog_size,), activation='relu')
     Dropout(0.5)
@@ -261,9 +222,7 @@ The selected architecture is a shallow MLP composed of:
 > b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
 
     - hog_size = 392 = dimensionality of the input vector
-
     - H = 128 = number of hidden units
-
     - C = 10 = number of classes
 
 - Weights between input layer and hidden layer
@@ -343,9 +302,6 @@ The first analyzed model is the model given by default in the notebook. It has t
  l5 (Dense)                  (None, 10)                260       
                                                                  
 =================================================================
-Total params: 7465 (29.16 KB)
-Trainable params: 7465 (29.16 KB)
-Non-trainable params: 0 (0.00 Byte)
  ```
 
  - Batch size: 128
@@ -354,10 +310,6 @@ Non-trainable params: 0 (0.00 Byte)
 
  The accuracy of this model on the train set is about 0.9742, which is a strong start. As we can see on the history plot below, the model is not overfitting and the validation loss is still decreasing at the end of the training, so we can try to increase the number of epochs to improve the performance.
 
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src=./figures/3_1_history_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src=./figures/3_1_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
 
 ### Second Model
 
@@ -369,12 +321,12 @@ For the third model, the goal is to try a more drastic change in the architectur
 
 | Test Accuracy | Architecture                                                                                                 | Observations                       |
 |---------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------|
-| 0.9944        | 32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 128                                                   | Overfitting quickly                |
-| 0.9922        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 128                                                   | Overfitting still present but less |
-| 0.9936        | 32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 256                                                   | Almost no overfitting              |
-| **0.9938**        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)                                 | **Almost no overfitting**              |
-| 0.9923        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch normalization after each convolution layer, batch size 128 | Overfitting still present but less |
-| 0.9915        | 32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3 → 256 filters, 3x3, batch size 128                                | Overfitting very quickly           |
+| 0.9944        | 32 filters, 5x5 -> 64 filters, 5x5 -> 128 filters, 3x3, batch size 128                                                   | Overfitting quickly                |
+| 0.9922        | 32 filters, 3x3 -> 64 filters, 3x3 -> 128 filters, 3x3, batch size 128                                                   | Overfitting still present but less |
+| 0.9936        | 32 filters, 5x5 -> 64 filters, 5x5 -> 128 filters, 3x3, batch size 256                                                   | Almost no overfitting              |
+| **0.9938**        | 32 filters, 3x3 -> 64 filters, 3x3 -> 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)                                 | **Almost no overfitting**              |
+| 0.9923        | 32 filters, 3x3 -> 64 filters, 3x3 -> 128 filters, 3x3, batch normalization after each convolution layer, batch size 128 | Overfitting still present but less |
+| 0.9915        | 32 filters, 3x3 -> 64 filters, 3x3 -> 128 filters, 3x3 -> 256 filters, 3x3, batch size 128                                | Overfitting very quickly           |
 
 The best performing model is the one with 32 filters of size 3x3 in the first convolutional layer, followed by 64 filters of size 3x3 in the second convolutional layer, and finally 128 filters of size 3x3 in the third convolutional layer. We also used a batch size of 256, the SGD optimizer with a momentum of 0.9, dropout layers with a dropout rate of 0.3 after the flatten layer and after the first dense layer and 50 epochs. This model achieved an accuracy of 0.9938 on the test set, which is a significant improvement over the previous models. The test score is 0.0212. The history plot and confusion matrix are shown below:
 
@@ -457,38 +409,26 @@ We can say that overall, the CNN generalizes quite well given the difficulty of 
 
 The algorithm used by default to optimize the weights is RMSprop. RMSprop is an optimization algorithm used to adjust the weights of a neural network. It adapts the learning rates of the weights by using a moving average of the squared previous gradients, which allows faster convergence and improves learning performance.
 
-<div style="text-align:center">
-    <img src="figures/rmsprop_equation.png" alt="drawing" style="width:300"/>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src=./figures/rmsprop_equation.png alt="linear" style="width:100%; max-width:200px; height:auto;">
 </div>
 
 where:
 
-- $E[g]$ is the moving average of the squared gradients
-- $\frac{\delta c}{\delta w}$ is the gradient of the cost function with respect to the weight
-- $\eta$ is the learning rate
-- $\beta$ is the moving average parameter
+- E[g] is the moving average of the squared gradients
+- δc/δw is the gradient of the cost function with respect to the weight
+- η is the learning rate
+- β is the moving average parameter
 
 > What are the parameters (arguments) being used by that algorithm?
 
 The parameters used in the ``RMSprop`` optimizer can be found in the `Keras` documentation and are as follows:
 
 ```python
-keras.optimizers.RMSprop(
-    learning_rate=0.001,
-    rho=0.9,
-    momentum=0.0,
-    epsilon=1e-07,
-    centered=False,
-    weight_decay=None,
-    clipnorm=None,
-    clipvalue=None,
-    global_clipnorm=None,
-    use_ema=False,
-    ema_momentum=0.99,
-    ema_overwrite_frequency=None,
-    loss_scale_factor=None,
-    gradient_accumulation_steps=None,
-    name="rmsprop",
+keras.optimizers.RMSprop(learning_rate=0.001, rho=0.9, momentum=0.0, epsilon=1e-07,
+    centered=False, weight_decay=None, clipnorm=None, clipvalue=None,
+    global_clipnorm=None, use_ema=False, ema_momentum=0.99, ema_overwrite_frequency=None,
+    loss_scale_factor=None, gradient_accumulation_steps=None, name="rmsprop",
     **kwargs
 )
 ```
@@ -497,18 +437,13 @@ keras.optimizers.RMSprop(
 
 The cost function used is the categorical cross-entropy loss function. This function is commonly used for multi-class classification problems, where the goal is to predict the class label of an input from multiple possible classes. The categorical cross-entropy loss measures the difference between the predicted probability distribution and the true distribution (one-hot encoded labels) and penalizes incorrect predictions more heavily. The equation for the categorical cross-entropy loss is given by:
 
-$$L = -\sum(y \cdot \log(\hat{y}))$$
+L = - Σ(y * log(y_pred))
 
 where:
-- $L$ is the loss
-- $y$ is the true label (one-hot encoded)
-- $\hat{y}$ is the predicted probability distribution
+- L is the loss
+- y is the true label (one-hot encoded)
+- ŷ is the predicted probability distribution
 
-> How did you create the training, validation and test datasets.
-
-### Question 2
-
-See in each experiment section.
 
 ### Question 3
 
@@ -516,7 +451,7 @@ See in each experiment section.
 
 In general, deeper convolutional neural networks tend to have more weights than shallow models. This comes from the fact that deeper CNNs usually include a larger number of layers, and each convolution layer contains several filters that hold weights. However, this is not always true and depends on the specific model configuration. For example, a shallow model with several layers and many neurons may end up with more weights than a CNN that has only one convolution layer using small filters. 
 
-### Question 4
+### Remark
 
-See the section for part 4.
+Question 2 is answered in each experiment section and question 4 in its respective section.
 

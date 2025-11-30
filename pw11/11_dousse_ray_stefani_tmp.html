@@ -353,7 +353,7 @@ code {
 }
 
 </style>
-
+<link rel="stylesheet" href="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/style.css" type="text/css">
 <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
@@ -380,9 +380,6 @@ dense (Dense)               (None, 300)               235500
 dense_1 (Dense)             (None, 10)                3010      
                                                                 
 =================================================================
-Total params: 238510 (931.68 KB)
-Trainable params: 238510 (931.68 KB)
-Non-trainable params: 0 (0.00 Byte)
 </div></code></pre>
 <p>With:</p>
 <ul>
@@ -398,13 +395,9 @@ We can see with the confusion matrix that Errors are rare but mainly occur betwe
 </div>
 <h3 id="second-model">Second Model</h3>
 <p>The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons.</p>
-<p>We also reduce the batch size to 64 and increase the number of epochs to 50.
-The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.</p>
+<p>We also reduce the batch size to 64 and increase the number of epochs to 50.</p>
+<p>The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.</p>
 <p>The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.</p>
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_2_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_2_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
 <h3 id="third-model">Third Model</h3>
 <p>The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer.</p>
 <p>We tried adding more layers, but it did not improve the performance, so we kept only one hidden layer with more neurons. The batch size is still 64 and the number of epochs is 30.</p>
@@ -428,22 +421,9 @@ Each model differs only in the number of hidden units and dropout layers:</p>
 <p>b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.</p>
 </blockquote>
 <p>We compute weights as: $weights = (inputs + 1) × neurons$ where the &quot;+1&quot; corresponds to the bias term for each neuron.</p>
-<p><strong>Model 1</strong> </br>
-<em>Input -&gt; Hidden (784 -&gt; 300)</em></br>
-$(784+1)×300=785×300=235 500$</br>
-<em>Hidden -&gt; Output (300 -&gt; 10)</em></br>
-$(300+1)×10=301×10=3 010$</br>
-$Total\ weights = 238 510$</br></p>
-<p><strong>Model 2</strong>:</p>
-<p>Dropout does not add parameters.
-So Model 2 has the exact same number of weights as Model 1:</br>
-$Total\ weights = 238 510$</p>
-<p><strong>Model 3</strong>: </br></p>
-<p><em>Input -&gt; Hidden (784 -&gt; 1000)</em></br>
-$(784+1)×1000=785000$</br>
-<em>Hidden -&gt; Output (1000 -&gt; 10)</em></br>
-$(1000+1)×10=1001×10=10010$</br>
-$Total\ weights = 795 010$</br></p>
+<p><strong>Model 1</strong>: (784+1)×300 + (300+1)×10 = 235'500 + 3'010 = 238'510
+<strong>Model 2</strong>: Dropout -&gt; pas de paramètres ajoutés -&gt; 238'510
+<strong>Model 3</strong>: (784+1)×1000 + (1000+1)×10 = 785'000 + 10'010 = 795'010</p>
 <blockquote>
 <p>c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?</p>
 </blockquote>
@@ -496,30 +476,12 @@ The pairs might be confused due to similar curvature and orientation or share si
  dense_1 (Dense)             (None, 10)                3010      
                                                                  
 =================================================================
-Total params: 120910 (472.30 KB)
-Trainable params: 120910 (472.30 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
 </div></code></pre>
 <p>With:</p>
-<ul>
-<li>
-<p>Batch size: 128</p>
-</li>
-<li>
-<p>Epochs: 5</p>
-</li>
-<li>
-<p>Optimizer: RMSprop</p>
-</li>
-<li>
-<p>Results</p>
-</li>
-</ul>
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_2_2_lossmatrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
+<pre><code>- Batch size: 128
+- Epochs: 5 
+- Optimizer: RMSprop
+</code></pre>
 <ul>
 <li>Capacity.</li>
 </ul>
@@ -535,19 +497,12 @@ Test accuracy: 0.9781000018119812
 <h4 id="128-neurons-in-the-hidden-layer">128 neurons in the hidden layer</h4>
 <p>We have decided to reduce the number of neurons in the hidden layer to 128.</p>
 <p>With:</p>
+<pre><code>- Batch size: 128
+- Epochs: 5 
+- Optimizer: RMSprop
+</code></pre>
 <ul>
-<li>
-<p>Batch size: 128</p>
-</li>
-<li>
-<p>Epochs: 5</p>
-</li>
-<li>
-<p>Optimizer: RMSprop</p>
-</li>
-<li>
-<p>Results</p>
-</li>
+<li>Results</li>
 </ul>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_2_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
@@ -569,19 +524,12 @@ However, the loss curve shows the training had not plateaued at epoch 5, indicat
 <h4 id="128-neurons-in-the-hidden-layer-with-8-epochs">128 neurons in the hidden layer with 8 epochs</h4>
 <p>We increased the number of epochs to 8 because in the previous model the training was not yet converged at 5 epochs.</p>
 <p>With:</p>
+<pre><code>- Batch size: 128
+- Epochs: 8 
+- Optimizer: RMSprop
+</code></pre>
 <ul>
-<li>
-<p>Batch size: 128</p>
-</li>
-<li>
-<p>Epochs: 8</p>
-</li>
-<li>
-<p>Optimizer: RMSprop</p>
-</li>
-<li>
-<p>Results</p>
-</li>
+<li>Results</li>
 </ul>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_3_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
@@ -617,17 +565,6 @@ A softmax activation is used to produce normalized class probabilities.</p>
 <li>
 <p>Topology:
 The selected architecture is a shallow MLP composed of:</p>
-<ul>
-<li>
-<p>One fully-connected hidden layer with 128 neurons (ReLU)</p>
-</li>
-<li>
-<p>One dropout layer</p>
-</li>
-<li>
-<p>One output dense layer with 10 neurons (softmax)</p>
-</li>
-</ul>
 <pre class="hljs"><code><div>Dense(128, input_shape=(hog_size,), activation='relu')
 Dropout(0.5)
 Dense(10, activation='softmax')
@@ -638,9 +575,7 @@ Dense(10, activation='softmax')
 <p>b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.</p>
 </blockquote>
 <pre><code>- hog_size = 392 = dimensionality of the input vector
-
 - H = 128 = number of hidden units
-
 - C = 10 = number of classes
 </code></pre>
 <ul>
@@ -752,9 +687,6 @@ l4 (Dense)                  (None, 25)                3625
 l5 (Dense)                  (None, 10)                260       
                                                                 
 =================================================================
-Total params: 7465 (29.16 KB)
-Trainable params: 7465 (29.16 KB)
-Non-trainable params: 0 (0.00 Byte)
 </div></code></pre>
 <ul>
 <li>Batch size: 128</li>
@@ -762,10 +694,6 @@ Non-trainable params: 0 (0.00 Byte)
 <li>Optimizer: RMSprop</li>
 </ul>
 <p>The accuracy of this model on the train set is about 0.9742, which is a strong start. As we can see on the history plot below, the model is not overfitting and the validation loss is still decreasing at the end of the training, so we can try to increase the number of epochs to improve the performance.</p>
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_1_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_1_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
 <h3 id="second-model">Second Model</h3>
 <p>For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model.</p>
 <h3 id="third-model">Third Model</h3>
@@ -781,32 +709,32 @@ Non-trainable params: 0 (0.00 Byte)
 <tbody>
 <tr>
 <td>0.9944</td>
-<td>32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 128</td>
+<td>32 filters, 5x5 -&gt; 64 filters, 5x5 -&gt; 128 filters, 3x3, batch size 128</td>
 <td>Overfitting quickly</td>
 </tr>
 <tr>
 <td>0.9922</td>
-<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 128</td>
+<td>32 filters, 3x3 -&gt; 64 filters, 3x3 -&gt; 128 filters, 3x3, batch size 128</td>
 <td>Overfitting still present but less</td>
 </tr>
 <tr>
 <td>0.9936</td>
-<td>32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 256</td>
+<td>32 filters, 5x5 -&gt; 64 filters, 5x5 -&gt; 128 filters, 3x3, batch size 256</td>
 <td>Almost no overfitting</td>
 </tr>
 <tr>
 <td><strong>0.9938</strong></td>
-<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)</td>
+<td>32 filters, 3x3 -&gt; 64 filters, 3x3 -&gt; 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)</td>
 <td><strong>Almost no overfitting</strong></td>
 </tr>
 <tr>
 <td>0.9923</td>
-<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch normalization after each convolution layer, batch size 128</td>
+<td>32 filters, 3x3 -&gt; 64 filters, 3x3 -&gt; 128 filters, 3x3, batch normalization after each convolution layer, batch size 128</td>
 <td>Overfitting still present but less</td>
 </tr>
 <tr>
 <td>0.9915</td>
-<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3 → 256 filters, 3x3, batch size 128</td>
+<td>32 filters, 3x3 -&gt; 64 filters, 3x3 -&gt; 128 filters, 3x3 -&gt; 256 filters, 3x3, batch size 128</td>
 <td>Overfitting very quickly</td>
 </tr>
 </tbody>
@@ -888,36 +816,24 @@ The CNN architecture follows the structure provided in the notebook: a sequence 
 <p>What is the learning algorithm being used to train the neural networks?</p>
 </blockquote>
 <p>The algorithm used by default to optimize the weights is RMSprop. RMSprop is an optimization algorithm used to adjust the weights of a neural network. It adapts the learning rates of the weights by using a moving average of the squared previous gradients, which allows faster convergence and improves learning performance.</p>
-<div style="text-align:center">
-    <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/rmsprop_equation.png" alt="drawing" style="width:300">
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/rmsprop_equation.png" alt="linear" style="width:100%; max-width:200px; height:auto;">
 </div>
 <p>where:</p>
 <ul>
-<li>$E[g]$ is the moving average of the squared gradients</li>
-<li>$\frac{\delta c}{\delta w}$ is the gradient of the cost function with respect to the weight</li>
-<li>$\eta$ is the learning rate</li>
-<li>$\beta$ is the moving average parameter</li>
+<li>E[g] is the moving average of the squared gradients</li>
+<li>δc/δw is the gradient of the cost function with respect to the weight</li>
+<li>η is the learning rate</li>
+<li>β is the moving average parameter</li>
 </ul>
 <blockquote>
 <p>What are the parameters (arguments) being used by that algorithm?</p>
 </blockquote>
 <p>The parameters used in the <code>RMSprop</code> optimizer can be found in the <code>Keras</code> documentation and are as follows:</p>
-<pre class="hljs"><code><div>keras.optimizers.RMSprop(
-    learning_rate=<span class="hljs-number">0.001</span>,
-    rho=<span class="hljs-number">0.9</span>,
-    momentum=<span class="hljs-number">0.0</span>,
-    epsilon=<span class="hljs-number">1e-07</span>,
-    centered=<span class="hljs-literal">False</span>,
-    weight_decay=<span class="hljs-literal">None</span>,
-    clipnorm=<span class="hljs-literal">None</span>,
-    clipvalue=<span class="hljs-literal">None</span>,
-    global_clipnorm=<span class="hljs-literal">None</span>,
-    use_ema=<span class="hljs-literal">False</span>,
-    ema_momentum=<span class="hljs-number">0.99</span>,
-    ema_overwrite_frequency=<span class="hljs-literal">None</span>,
-    loss_scale_factor=<span class="hljs-literal">None</span>,
-    gradient_accumulation_steps=<span class="hljs-literal">None</span>,
-    name=<span class="hljs-string">"rmsprop"</span>,
+<pre class="hljs"><code><div>keras.optimizers.RMSprop(learning_rate=<span class="hljs-number">0.001</span>, rho=<span class="hljs-number">0.9</span>, momentum=<span class="hljs-number">0.0</span>, epsilon=<span class="hljs-number">1e-07</span>,
+    centered=<span class="hljs-literal">False</span>, weight_decay=<span class="hljs-literal">None</span>, clipnorm=<span class="hljs-literal">None</span>, clipvalue=<span class="hljs-literal">None</span>,
+    global_clipnorm=<span class="hljs-literal">None</span>, use_ema=<span class="hljs-literal">False</span>, ema_momentum=<span class="hljs-number">0.99</span>, ema_overwrite_frequency=<span class="hljs-literal">None</span>,
+    loss_scale_factor=<span class="hljs-literal">None</span>, gradient_accumulation_steps=<span class="hljs-literal">None</span>, name=<span class="hljs-string">"rmsprop"</span>,
     **kwargs
 )
 </div></code></pre>
@@ -925,25 +841,20 @@ The CNN architecture follows the structure provided in the notebook: a sequence 
 <p>What cost function is being used?</p>
 </blockquote>
 <p>The cost function used is the categorical cross-entropy loss function. This function is commonly used for multi-class classification problems, where the goal is to predict the class label of an input from multiple possible classes. The categorical cross-entropy loss measures the difference between the predicted probability distribution and the true distribution (one-hot encoded labels) and penalizes incorrect predictions more heavily. The equation for the categorical cross-entropy loss is given by:</p>
-<p>$$L = -\sum(y \cdot \log(\hat{y}))$$</p>
+<p>L = - Σ(y * log(y_pred))</p>
 <p>where:</p>
 <ul>
-<li>$L$ is the loss</li>
-<li>$y$ is the true label (one-hot encoded)</li>
-<li>$\hat{y}$ is the predicted probability distribution</li>
+<li>L is the loss</li>
+<li>y is the true label (one-hot encoded)</li>
+<li>ŷ is the predicted probability distribution</li>
 </ul>
-<blockquote>
-<p>How did you create the training, validation and test datasets.</p>
-</blockquote>
-<h3 id="question-2">Question 2</h3>
-<p>See in each experiment section.</p>
 <h3 id="question-3">Question 3</h3>
 <blockquote>
 <p>Do the deep neural networks have much more “capacity” (i.e., do they have more weights?) than the shallow ones? Explain with one example.</p>
 </blockquote>
 <p>In general, deeper convolutional neural networks tend to have more weights than shallow models. This comes from the fact that deeper CNNs usually include a larger number of layers, and each convolution layer contains several filters that hold weights. However, this is not always true and depends on the specific model configuration. For example, a shallow model with several layers and many neurons may end up with more weights than a CNN that has only one convolution layer using small filters.</p>
-<h3 id="question-4">Question 4</h3>
-<p>See the section for part 4.</p>
+<h3 id="remark">Remark</h3>
+<p>Question 2 is answered in each experiment section and question 4 in its respective section.</p>
 
 </body>
 </html>
