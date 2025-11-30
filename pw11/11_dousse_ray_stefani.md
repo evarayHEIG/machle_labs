@@ -320,7 +320,7 @@ The selected architecture is a shallow MLP composed of:
 
 > b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.
 
-    - hog_size = dimensionality of the input vector
+    - hog_size = 392 = dimensionality of the input vector
 
     - H = 128 = number of hidden units
 
@@ -339,7 +339,7 @@ Each of the 10 output neurons receives 128 weights plus one bias.
 - Total number of parameters
 
 ```
-Total = (hog_size × 128 + 128) + (128 × 10 + 10) = 128 × (hog_size + 1) + 10 × (128 + 1)
+Total = (hog_size × 128 + 128) + (128 × 10 + 10) = 51594
 ```
 
 > c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?
