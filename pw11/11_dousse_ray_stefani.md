@@ -37,22 +37,8 @@ We can see with the confusion matrix that Errors are rare but mainly occur betwe
 </div>
 
 ### Second Model
-The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. The architecture is as follows:
+The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. 
 
- ```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense (Dense)                   │ (None, 300)            │       235,500 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout (Dropout)               │ (None, 300)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_1 (Dense)                 │ (None, 10)             │         3,010 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 238,510 (931.68 KB)
- Trainable params: 238,510 (931.68 KB)
- Non-trainable params: 0 (0.00 B)
- ```
 We also reduce the batch size to 64 and increase the number of epochs to 50.
 The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.
 
@@ -65,21 +51,7 @@ The final performance for the validation accuracy is around 0.982 and the test a
 </div>
 
 ### Third Model
-The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:
-```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense_15 (Dense)                │ (None, 1000)           │       785,000 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_9 (Dropout)             │ (None, 1000)           │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_16 (Dense)                │ (None, 10)             │        10,010 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
-Total params: 795,010 (3.03 MB)
-Trainable params: 795,010 (3.03 MB)
-Non-trainable params: 0 (0.00 B)
-```
+The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. 
 
 We tried adding more layers, but it did not improve the performance, so we kept only one hidden layer with more neurons. The batch size is still 64 and the number of epochs is 30.
 
@@ -172,18 +144,18 @@ With:
 - Epochs: 5 
 - Optimizer: RMSprop
 
-#### Results
+- Results
 
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src=./figures/2_1_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src=./figures/2_1_2_2_lossmatrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 
-##### Capacity.
+- Capacity.
 
 The model contains ~121k parameters, which is significantly high considering the simplicity of the MNIST-HOG feature space. This parameter count results from the dense projection of the input HOG vector into a 300-unit latent space, plus the output head. Such capacity is already sufficient to nearly saturate MNIST performance.
 
-##### Performance.
+- Performance.
 
 ```
 Test score: 0.06717927008867264
@@ -197,22 +169,7 @@ The network converges efficiently and already reaches an excellent accuracy. How
 
 #### 128 neurons in the hidden layer
 
-```
-_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- dense_2 (Dense)             (None, 128)               50304     
-                                                                 
- dropout_1 (Dropout)         (None, 128)               0         
-                                                                 
- dense_3 (Dense)             (None, 10)                1290      
-                                                                 
-=================================================================
-Total params: 51594 (201.54 KB)
-Trainable params: 51594 (201.54 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
-```
+We have decided to reduce the number of neurons in the hidden layer to 128. 
 
 With: 
 - Batch size: 128
@@ -220,18 +177,18 @@ With:
 - Optimizer: RMSprop
 
 
-#### Results
+- Results
 
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src=./figures/2_2_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src=./figures/2_2_matrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 
-##### Capacity.
+- Capacity.
 
 This architecture drops to ~52k parameters, reducing the model size by more than half while keeping the same conceptual structure.
 
-##### Performance.
+- Performance.
 
 ```
 Test score: 0.07203482836484909
@@ -245,43 +202,25 @@ However, the loss curve shows the training had not plateaued at epoch 5, indicat
 
 #### 128 neurons in the hidden layer with 8 epochs
 
-```
-_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- dense_2 (Dense)             (None, 128)               50304     
-                                                                 
- dropout_1 (Dropout)         (None, 128)               0         
-                                                                 
- dense_3 (Dense)             (None, 10)                1290      
-                                                                 
-=================================================================
-Total params: 51594 (201.54 KB)
-Trainable params: 51594 (201.54 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
-```
+We increased the number of epochs to 8 because in the previous model the training was not yet converged at 5 epochs.
 
 With: 
 - Batch size: 128
 - Epochs: 8 
 - Optimizer: RMSprop
 
-
-
-#### Results
-
+- Results
 
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src=./figures/2_3_loss.png alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src=./figures/2_3_matrix.png alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 
-##### Capacity.
+- Capacity.
 
 The model has the same ~52k parameters as Model 2.
 
-##### Performance.
+- Performance.
 
 ```
 Test score: 0.06717927008867264
@@ -289,7 +228,6 @@ Test accuracy: 0.9781000018119812
 ```
 
 By extending training to 8 epochs, you obtain a lower loss and higher accuracy than Model 2, and near Model 1 despite using less than half the parameters. The convergence curves confirm that additional epochs improve generalization without inducing overfitting at this scale.
-
 
 ### Questions
 
@@ -423,13 +361,7 @@ Non-trainable params: 0 (0.00 Byte)
 
 ### Second Model
 
-For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model. The history plot and confusion matrix are shown below:
-
-
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src=./figures/3_2_histo3_1_history_plotry_plot.png alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src=./figures/3_2_cm.png alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
+For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model.
 
 ### Third Model
 

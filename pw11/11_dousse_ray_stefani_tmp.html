@@ -365,7 +365,7 @@ code {
           : 'default'
     });
   </script>
-<h1 id="machle-pw-10---report">MachLe PW 10 - Report</h1>
+<h1 id="machle-pw-11---report">MachLe PW 11 - Report</h1>
 <h4 id="authors-rafael-dousse-massimo-stefani-eva-ray">authors: Rafael Dousse, Massimo Stefani, Eva Ray</h4>
 <h2 id="1-digit-recognition-from-raw-data">1. Digit recognition from raw data</h2>
 <p>This first part is focused on implementing three different architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. The model use the raw data (28x28 pixel intensities) as input features and 10 classes (digits from 0 to 9) as output.</p>
@@ -397,20 +397,7 @@ We can see with the confusion matrix that Errors are rare but mainly occur betwe
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_1_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 <h3 id="second-model">Second Model</h3>
-<p>The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. The architecture is as follows:</p>
-<pre class="hljs"><code><div>┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense (Dense)                   │ (None, 300)            │       235,500 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout (Dropout)               │ (None, 300)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_1 (Dense)                 │ (None, 10)             │         3,010 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
-Total params: 238,510 (931.68 KB)
-Trainable params: 238,510 (931.68 KB)
-Non-trainable params: 0 (0.00 B)
-</div></code></pre>
+<p>The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons.</p>
 <p>We also reduce the batch size to 64 and increase the number of epochs to 50.
 The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.</p>
 <p>The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.</p>
@@ -419,20 +406,7 @@ The training and validation curves show that the training loss decreases steadil
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_2_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 <h3 id="third-model">Third Model</h3>
-<p>The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:</p>
-<pre class="hljs"><code><div>┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense_15 (Dense)                │ (None, 1000)           │       785,000 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_9 (Dropout)             │ (None, 1000)           │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_16 (Dense)                │ (None, 10)             │        10,010 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
-Total params: 795,010 (3.03 MB)
-Trainable params: 795,010 (3.03 MB)
-Non-trainable params: 0 (0.00 B)
-</div></code></pre>
+<p>The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer.</p>
 <p>We tried adding more layers, but it did not improve the performance, so we kept only one hidden layer with more neurons. The batch size is still 64 and the number of epochs is 30.</p>
 <p>The train accuracy is around 0.9957, validation accuracy is around 0.9840 and the test accuracy around 0.985. As said before, we tried with more layers and other parameters, but the performance did not improve. This model has the best performance of the three models, but the improvement is quite small compared to the second model. We can also see on the learning curves that the model tends to overfit a little as the gap between training and validation loss increases over epochs.</p>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
@@ -529,53 +503,63 @@ _________________________________________________________________
 </div></code></pre>
 <p>With:</p>
 <ul>
-<li>Batch size: 128</li>
-<li>Epochs: 5</li>
-<li>Optimizer: RMSprop</li>
+<li>
+<p>Batch size: 128</p>
+</li>
+<li>
+<p>Epochs: 5</p>
+</li>
+<li>
+<p>Optimizer: RMSprop</p>
+</li>
+<li>
+<p>Results</p>
+</li>
 </ul>
-<h4 id="results">Results</h4>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_2_2_lossmatrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
-<h5 id="capacity">Capacity.</h5>
+<ul>
+<li>Capacity.</li>
+</ul>
 <p>The model contains ~121k parameters, which is significantly high considering the simplicity of the MNIST-HOG feature space. This parameter count results from the dense projection of the input HOG vector into a 300-unit latent space, plus the output head. Such capacity is already sufficient to nearly saturate MNIST performance.</p>
-<h5 id="performance">Performance.</h5>
+<ul>
+<li>Performance.</li>
+</ul>
 <pre class="hljs"><code><div>Test score: 0.06717927008867264
 Test accuracy: 0.9781000018119812
 </div></code></pre>
 <p>The network converges efficiently and already reaches an excellent accuracy. However, the parameter-efficiency ratio is poor: we spend 121k parameters for a marginal advantage over slimmer networks. Given the assignment objective, this model is clearly over-provisioned.</p>
 <h3 id="second-model">Second Model</h3>
 <h4 id="128-neurons-in-the-hidden-layer">128 neurons in the hidden layer</h4>
-<pre class="hljs"><code><div>_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- dense_2 (Dense)             (None, 128)               50304     
-                                                                 
- dropout_1 (Dropout)         (None, 128)               0         
-                                                                 
- dense_3 (Dense)             (None, 10)                1290      
-                                                                 
-=================================================================
-Total params: 51594 (201.54 KB)
-Trainable params: 51594 (201.54 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
-</div></code></pre>
+<p>We have decided to reduce the number of neurons in the hidden layer to 128.</p>
 <p>With:</p>
 <ul>
-<li>Batch size: 128</li>
-<li>Epochs: 5</li>
-<li>Optimizer: RMSprop</li>
+<li>
+<p>Batch size: 128</p>
+</li>
+<li>
+<p>Epochs: 5</p>
+</li>
+<li>
+<p>Optimizer: RMSprop</p>
+</li>
+<li>
+<p>Results</p>
+</li>
 </ul>
-<h4 id="results">Results</h4>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_2_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_2_matrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
-<h5 id="capacity">Capacity.</h5>
+<ul>
+<li>Capacity.</li>
+</ul>
 <p>This architecture drops to ~52k parameters, reducing the model size by more than half while keeping the same conceptual structure.</p>
-<h5 id="performance">Performance.</h5>
+<ul>
+<li>Performance.</li>
+</ul>
 <pre class="hljs"><code><div>Test score: 0.07203482836484909
 Test accuracy: 0.9771999716758728
 </div></code></pre>
@@ -583,35 +567,33 @@ Test accuracy: 0.9771999716758728
 However, the loss curve shows the training had not plateaued at epoch 5, indicating that the optimization is incomplete. This is consistent with your remark that the curve continues to descend.</p>
 <h3 id="third-model">Third Model</h3>
 <h4 id="128-neurons-in-the-hidden-layer-with-8-epochs">128 neurons in the hidden layer with 8 epochs</h4>
-<pre class="hljs"><code><div>_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- dense_2 (Dense)             (None, 128)               50304     
-                                                                 
- dropout_1 (Dropout)         (None, 128)               0         
-                                                                 
- dense_3 (Dense)             (None, 10)                1290      
-                                                                 
-=================================================================
-Total params: 51594 (201.54 KB)
-Trainable params: 51594 (201.54 KB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
-</div></code></pre>
+<p>We increased the number of epochs to 8 because in the previous model the training was not yet converged at 5 epochs.</p>
 <p>With:</p>
 <ul>
-<li>Batch size: 128</li>
-<li>Epochs: 8</li>
-<li>Optimizer: RMSprop</li>
+<li>
+<p>Batch size: 128</p>
+</li>
+<li>
+<p>Epochs: 8</p>
+</li>
+<li>
+<p>Optimizer: RMSprop</p>
+</li>
+<li>
+<p>Results</p>
+</li>
 </ul>
-<h4 id="results">Results</h4>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_3_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_3_matrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
-<h5 id="capacity">Capacity.</h5>
+<ul>
+<li>Capacity.</li>
+</ul>
 <p>The model has the same ~52k parameters as Model 2.</p>
-<h5 id="performance">Performance.</h5>
+<ul>
+<li>Performance.</li>
+</ul>
 <pre class="hljs"><code><div>Test score: 0.06717927008867264
 Test accuracy: 0.9781000018119812
 </div></code></pre>
@@ -785,11 +767,7 @@ Non-trainable params: 0 (0.00 Byte)
 <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_1_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
 </div>
 <h3 id="second-model">Second Model</h3>
-<p>For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model. The history plot and confusion matrix are shown below:</p>
-<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_2_histo3_1_history_plotry_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
-<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_2_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
-</div>
+<p>For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model.</p>
 <h3 id="third-model">Third Model</h3>
 <p>For the third model, the goal is to try a more drastic change in the architecture like adding more filters, changing the kernel size, adding more convolutional layers, changing the batch size, or adding batch normalization layers. In the table below, we summarize the different architectures we tried as well as their performance on the test set and our observations regarding overfitting.</p>
 <table>
