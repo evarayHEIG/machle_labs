@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>11_dousse_ray_stefani.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="machle-pw-10---report">MachLe PW 10 - Report</h1>
+<h4 id="authors-rafael-dousse-massimo-stefani-eva-ray">authors: Rafael Dousse, Massimo Stefani, Eva Ray</h4>
+<h2 id="1-digit-recognition-from-raw-data">1. Digit recognition from raw data</h2>
+<p>This first part is focused on implementing three different architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. The model use the raw data (28x28 pixel intensities) as input features and 10 classes (digits from 0 to 9) as output.</p>
+<p>The training set consists of 50000 samples, the validation set of 10000 samples, and the test set of 10000 samples. This is the repartition used by default in the provided notebook.</p>
+<h3 id="first-model">First Model</h3>
+<p>The first model is the architecture provided in the notebook. It is a simple multilayer perceptron. Here is the architecture:</p>
+<pre class="hljs"><code><div>_________________________________________________________________
+Layer (type)                Output Shape              Param #   
+=================================================================
+dense (Dense)               (None, 300)               235500    
+                                                                
+dense_1 (Dense)             (None, 10)                3010      
+                                                                
+=================================================================
+Total params: 238510 (931.68 KB)
+Trainable params: 238510 (931.68 KB)
+Non-trainable params: 0 (0.00 Byte)
+</div></code></pre>
+<p>With:</p>
+<ul>
+<li>Batch size: 128</li>
+<li>Epochs: 5</li>
+<li>Optimizer: RMSprop</li>
+</ul>
+<p>We already obtain an accuracy of about 0.9801 on the training set, 0.9803 on the validation set and 0.9801 on the test set. The learning curves show, continuously decreasing training loss and validation loss also decreasing, with almost no overfitting It shows already good performance for a simple architecture.
+We can see with the confusion matrix that Errors are rare but mainly occur between digits with similar shapes:</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_1_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_1_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="second-model">Second Model</h3>
+<p>The second model is a deeper architecture with dropout layers. Dropout is a regularization technique that helps prevent overfitting by randomly setting a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. The architecture is as follows:</p>
+<pre class="hljs"><code><div>┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense (Dense)                   │ (None, 300)            │       235,500 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 300)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 10)             │         3,010 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+Total params: 238,510 (931.68 KB)
+Trainable params: 238,510 (931.68 KB)
+Non-trainable params: 0 (0.00 B)
+</div></code></pre>
+<p>We also reduce the batch size to 64 and increase the number of epochs to 50.
+The training and validation curves show that the training loss decreases steadily over epochs but the validation loss starts around 0.09 and fluctuates slightly upward, stabilizing around 0.10–0.11 after epoch 10. This could indicates a small amount of overfitting. The gap remains limited, meaning the model generalizes reasonably well.</p>
+<p>The final performance for the validation accuracy is around 0.982 and the test accuracy around 0.983. This is a small improvement compared to the first model, even though the architecture is still relatively small.</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_2_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_2_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="third-model">Third Model</h3>
+<p>The third model has a larger architecture with more neurons. We went from 300 neurons in the hidden layer to 1000 neurons and we kept the dropout layer. The architecture is as follows:</p>
+<pre class="hljs"><code><div>┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense_15 (Dense)                │ (None, 1000)           │       785,000 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_9 (Dropout)             │ (None, 1000)           │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_16 (Dense)                │ (None, 10)             │        10,010 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+Total params: 795,010 (3.03 MB)
+Trainable params: 795,010 (3.03 MB)
+Non-trainable params: 0 (0.00 B)
+</div></code></pre>
+<p>We tried adding more layers, but it did not improve the performance, so we kept only one hidden layer with more neurons. The batch size is still 64 and the number of epochs is 30.</p>
+<p>The train accuracy is around 0.9957, validation accuracy is around 0.9840 and the test accuracy around 0.985. As said before, we tried with more layers and other parameters, but the performance did not improve. This model has the best performance of the three models, but the improvement is quite small compared to the second model. We can also see on the learning curves that the model tends to overfit a little as the gap between training and validation loss increases over epochs.</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_3_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/1_3_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="questions">Questions</h3>
+<blockquote>
+<p>a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.</p>
+</blockquote>
+<p>The input of all three models consists of 784 features, corresponding to the 28×28 pixel intensity values of each MNIST image. The output layer always contains 10 neurons, one per digit class (0–9), using a <code>softmax</code> activation function.
+Each model differs only in the number of hidden units and dropout layers:</p>
+<ul>
+<li>Model 1: 784 -&gt; 300 -&gt; 10</li>
+<li>Model 2: 784 -&gt; 300 -&gt; Dropout(0.5) -&gt; 10</li>
+<li>Model 3: 784 -&gt; 1000 -&gt; Dropout(0.5) -&gt; 10</li>
+</ul>
+<blockquote>
+<p>b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.</p>
+</blockquote>
+<p>We compute weights as: $weights = (inputs + 1) × neurons$ where the &quot;+1&quot; corresponds to the bias term for each neuron.</p>
+<p><strong>Model 1</strong> </br>
+<em>Input -&gt; Hidden (784 -&gt; 300)</em></br>
+$(784+1)×300=785×300=235 500$</br>
+<em>Hidden -&gt; Output (300 -&gt; 10)</em></br>
+$(300+1)×10=301×10=3 010$</br>
+$Total\ weights = 238 510$</br></p>
+<p><strong>Model 2</strong>:</p>
+<p>Dropout does not add parameters.
+So Model 2 has the exact same number of weights as Model 1:</br>
+$Total\ weights = 238 510$</p>
+<p><strong>Model 3</strong>: </br></p>
+<p><em>Input -&gt; Hidden (784 -&gt; 1000)</em></br>
+$(784+1)×1000=785000$</br>
+<em>Hidden -&gt; Output (1000 -&gt; 10)</em></br>
+$(1000+1)×10=1001×10=10010$</br>
+$Total\ weights = 795 010$</br></p>
+<blockquote>
+<p>c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Validation Accuracy</th>
+<th>Test Accuracy</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>~0.980</td>
+<td>~0.980</td>
+<td>Good baseline, very limited overfitting.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>~0.982</td>
+<td>~0.983</td>
+<td>Slight improvement thanks to dropout + longer training.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>~0.984</td>
+<td>~0.985</td>
+<td>Best accuracy, but only marginally better. Overfitting starts to appear.</td>
+</tr>
+</tbody>
+</table>
+<p>Increasing the number of neurons improves performance, but the gains become very small because MNIST is a relatively simple dataset and a shallow MLP already performs very well.</p>
+<p>Across all three confusion matrices, the same patterns appear:
+<code>3-5</code>, <code>5-3</code>, <code>4-9</code>, <code>9-4</code>, <code>3-9</code> and <code>2-7</code> are the most confused digit pairs.
+The pairs might be confused due to similar curvature and orientation or share similar straight lines. For example, some handwritten 3 can look like a 5. For the 4 and the 9 pair, the top part of the 4 can be mistaken for the loop of the 9.</p>
+<p>Model 3 reduces the number of mistakes but does not eliminate these specific ambiguous cases.</p>
+<h2 id="2-digit-recognition-from-features-of-the-input-data">2. Digit recognition from features of the input data</h2>
+<p>All the models will be integrated with a dropout layer after the hidden layer with a dropout rate of 0.5 to prevent overfitting.</p>
+<h3 id="first-model">First Model</h3>
+<h4 id="300-neurons-in-the-hidden-layer">300 neurons in the hidden layer</h4>
+<pre class="hljs"><code><div>_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense (Dense)               (None, 300)               117900    
+
+ dropout_1 (Dropout)         (None, 300)               0         
+                                                                 
+ dense_1 (Dense)             (None, 10)                3010      
+                                                                 
+=================================================================
+Total params: 120910 (472.30 KB)
+Trainable params: 120910 (472.30 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</div></code></pre>
+<p>With:</p>
+<ul>
+<li>Batch size: 128</li>
+<li>Epochs: 5</li>
+<li>Optimizer: RMSprop</li>
+</ul>
+<h4 id="results">Results</h4>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_1_2_2_lossmatrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h5 id="capacity">Capacity.</h5>
+<p>The model contains ~121k parameters, which is significantly high considering the simplicity of the MNIST-HOG feature space. This parameter count results from the dense projection of the input HOG vector into a 300-unit latent space, plus the output head. Such capacity is already sufficient to nearly saturate MNIST performance.</p>
+<h5 id="performance">Performance.</h5>
+<pre class="hljs"><code><div>Test score: 0.06717927008867264
+Test accuracy: 0.9781000018119812
+</div></code></pre>
+<p>The network converges efficiently and already reaches an excellent accuracy. However, the parameter-efficiency ratio is poor: we spend 121k parameters for a marginal advantage over slimmer networks. Given the assignment objective, this model is clearly over-provisioned.</p>
+<h3 id="second-model">Second Model</h3>
+<h4 id="128-neurons-in-the-hidden-layer">128 neurons in the hidden layer</h4>
+<pre class="hljs"><code><div>_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_2 (Dense)             (None, 128)               50304     
+                                                                 
+ dropout_1 (Dropout)         (None, 128)               0         
+                                                                 
+ dense_3 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 51594 (201.54 KB)
+Trainable params: 51594 (201.54 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</div></code></pre>
+<p>With:</p>
+<ul>
+<li>Batch size: 128</li>
+<li>Epochs: 5</li>
+<li>Optimizer: RMSprop</li>
+</ul>
+<h4 id="results">Results</h4>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_2_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_2_matrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h5 id="capacity">Capacity.</h5>
+<p>This architecture drops to ~52k parameters, reducing the model size by more than half while keeping the same conceptual structure.</p>
+<h5 id="performance">Performance.</h5>
+<pre class="hljs"><code><div>Test score: 0.07203482836484909
+Test accuracy: 0.9771999716758728
+</div></code></pre>
+<p>The accuracy is essentially comparable to Model 1 despite the massive parameter reduction.
+However, the loss curve shows the training had not plateaued at epoch 5, indicating that the optimization is incomplete. This is consistent with your remark that the curve continues to descend.</p>
+<h3 id="third-model">Third Model</h3>
+<h4 id="128-neurons-in-the-hidden-layer-with-8-epochs">128 neurons in the hidden layer with 8 epochs</h4>
+<pre class="hljs"><code><div>_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_2 (Dense)             (None, 128)               50304     
+                                                                 
+ dropout_1 (Dropout)         (None, 128)               0         
+                                                                 
+ dense_3 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 51594 (201.54 KB)
+Trainable params: 51594 (201.54 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</div></code></pre>
+<p>With:</p>
+<ul>
+<li>Batch size: 128</li>
+<li>Epochs: 8</li>
+<li>Optimizer: RMSprop</li>
+</ul>
+<h4 id="results">Results</h4>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_3_loss.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/2_3_matrix.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h5 id="capacity">Capacity.</h5>
+<p>The model has the same ~52k parameters as Model 2.</p>
+<h5 id="performance">Performance.</h5>
+<pre class="hljs"><code><div>Test score: 0.06717927008867264
+Test accuracy: 0.9781000018119812
+</div></code></pre>
+<p>By extending training to 8 epochs, you obtain a lower loss and higher accuracy than Model 2, and near Model 1 despite using less than half the parameters. The convergence curves confirm that additional epochs improve generalization without inducing overfitting at this scale.</p>
+<h3 id="questions">Questions</h3>
+<blockquote>
+<p>a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.</p>
+</blockquote>
+<p>The model processes HOG feature vectors extracted from the MNIST images.</p>
+<ul>
+<li>
+<p>Inputs:
+The network receives a vector of size hog_size.
+Each input dimension corresponds to one HOG coefficient computed from the gradient histogram representation.</p>
+</li>
+<li>
+<p>Outputs:
+The final dense layer contains 10 units, one per digit class (0–9).
+A softmax activation is used to produce normalized class probabilities.</p>
+</li>
+<li>
+<p>Topology:
+The selected architecture is a shallow MLP composed of:</p>
+<ul>
+<li>
+<p>One fully-connected hidden layer with 128 neurons (ReLU)</p>
+</li>
+<li>
+<p>One dropout layer</p>
+</li>
+<li>
+<p>One output dense layer with 10 neurons (softmax)</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>Dense(128, input_shape=(hog_size,), activation='relu')
+Dropout(0.5)
+Dense(10, activation='softmax')
+</div></code></pre>
+</li>
+</ul>
+<blockquote>
+<p>b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.</p>
+</blockquote>
+<pre><code>- hog_size = 392 = dimensionality of the input vector
+
+- H = 128 = number of hidden units
+
+- C = 10 = number of classes
+</code></pre>
+<ul>
+<li>
+<p>Weights between input layer and hidden layer
+Each hidden neuron has hog_size incoming weights plus one bias.</p>
+<ul>
+<li>Total parameters: (hog_size × 128) + 128</li>
+</ul>
+</li>
+<li>
+<p>Weights between hidden layer and output layer
+Each of the 10 output neurons receives 128 weights plus one bias.</p>
+<ul>
+<li>Total parameters: (128 × 10) + 10</li>
+</ul>
+</li>
+<li>
+<p>Total number of parameters</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>Total = (hog_size × 128 + 128) + (128 × 10 + 10) = 51594
+</div></code></pre>
+<blockquote>
+<p>c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Validation Accuracy</th>
+<th>Test Accuracy</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>~0.979</td>
+<td>~0.979</td>
+<td>High capacity (~121k params) leads to strong performance but poor parameter efficiency.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>~0.977</td>
+<td>~0.977</td>
+<td>Slimmer model (~52k params) achieves comparable accuracy, but training incomplete at 5 epochs.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>~0.978</td>
+<td>~0.978</td>
+<td>Same capacity as Model 2, but extended training (8 epochs) improves performance close to Model 1.</td>
+</tr>
+</tbody>
+</table>
+<p>All three models achieve strong accuracy around 97.7–97.9% on MNIST-HOG, demonstrating that even a small MLP can effectively leverage HOG features for digit recognition.</p>
+<p>Let's place a threshold of 10 misclassifications to identify frequently confused digit pairs from the confusion matrices.</p>
+<ul>
+<li>
+<p>Model 1</p>
+<ul>
+<li>He says 5 instead of 3 - 13 times</li>
+<li>He says 4 instead of 9 - 11 times</li>
+</ul>
+</li>
+<li>
+<p>Model 2</p>
+<ul>
+<li>He says 9 instead of 4 - 12 times</li>
+<li>He says 9 instead of 7 - 10 times</li>
+</ul>
+</li>
+<li>
+<p>Model 3</p>
+<ul>
+<li>He says 9 instead of 4 - 13 times</li>
+<li>He says 3 instead of 5 - 12 times</li>
+</ul>
+</li>
+</ul>
+<p>The misclassifications observed across the three models primarily concern digit pairs that share similar local gradient structures in their HOG representations. The most frequent errors involve confusions between 3 and 5, and between 4 and 9, with additional cases such as 7 being predicted as 9. These pairs exhibit overlapping dominant orientations once the image is reduced to HOG descriptors, which removes fine spatial details and makes certain handwritten styles nearly indistinguishable for a shallow MLP. Increasing the number of parameters (Model 1) or extending the training duration (Model 3) does not fundamentally change the nature of these confusions, indicating that they stem from the feature representation rather than model capacity. As a result, these systematic errors are expected and reflect the intrinsic limitations of using HOG features with a fully connected architecture.</p>
+<h2 id="3-convolutional-neural-network-digit-recognition">3. Convolutional neural network digit recognition</h2>
+<p>In this section, we implement three different CNN architectures for digit recognition using the MNIST dataset. The goal is to compare the performance of different architectures and understand how the choice of layers and parameters affects the results. All the following models use pixels from 28x28 images as input data, which represents an input size of 784 features. The possible outputs are the digits from 0 to 9, resulting in 10 output classes.</p>
+<p>The training set consists of 50000 samples, the validation set of 10000 samples, and the test set of 10000 samples. This is the repartition used by default in the provided notebook.</p>
+<h3 id="first-model">First Model</h3>
+<p>The first analyzed model is the model given by default in the notebook. It has the following architecture:</p>
+<pre class="hljs"><code><div>_________________________________________________________________
+Layer (type)                Output Shape              Param #   
+=================================================================
+l0 (InputLayer)             [(None, 28, 28, 1)]       0         
+                                                                
+l1 (Conv2D)                 (None, 28, 28, 9)         234       
+                                                                
+l1_mp (MaxPooling2D)        (None, 14, 14, 9)         0         
+                                                                
+l2 (Conv2D)                 (None, 14, 14, 9)         2034      
+                                                                
+l2_mp (MaxPooling2D)        (None, 7, 7, 9)           0         
+                                                                
+l3 (Conv2D)                 (None, 7, 7, 16)          1312      
+                                                                
+l3_mp (MaxPooling2D)        (None, 3, 3, 16)          0         
+                                                                
+flat (Flatten)              (None, 144)               0         
+                                                                
+l4 (Dense)                  (None, 25)                3625      
+                                                                
+l5 (Dense)                  (None, 10)                260       
+                                                                
+=================================================================
+Total params: 7465 (29.16 KB)
+Trainable params: 7465 (29.16 KB)
+Non-trainable params: 0 (0.00 Byte)
+</div></code></pre>
+<ul>
+<li>Batch size: 128</li>
+<li>Epochs: 5</li>
+<li>Optimizer: RMSprop</li>
+</ul>
+<p>The accuracy of this model on the train set is about 0.9742, which is a strong start. As we can see on the history plot below, the model is not overfitting and the validation loss is still decreasing at the end of the training, so we can try to increase the number of epochs to improve the performance.</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_1_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_1_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="second-model">Second Model</h3>
+<p>For the second model, we first simply increased the epochs to 50. However, the model tends to overfit pretty quickly, so we added Dropout layers after the flatten layer and after the first dense layer with a dropout rate of 0.3. This helps with overfitting because it randomly sets a fraction of input units to 0 at each update during training time, which helps prevent the model from relying too much on specific neurons. With this new architecture, we obtained an accuracy of 0.9862 on the test set, which is a significant improvement considering the high accuracy of the first model. The history plot and confusion matrix are shown below:</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_2_histo3_1_history_plotry_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_2_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="third-model">Third Model</h3>
+<p>For the third model, the goal is to try a more drastic change in the architecture like adding more filters, changing the kernel size, adding more convolutional layers, changing the batch size, or adding batch normalization layers. In the table below, we summarize the different architectures we tried as well as their performance on the test set and our observations regarding overfitting.</p>
+<table>
+<thead>
+<tr>
+<th>Test Accuracy</th>
+<th>Architecture</th>
+<th>Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.9944</td>
+<td>32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 128</td>
+<td>Overfitting quickly</td>
+</tr>
+<tr>
+<td>0.9922</td>
+<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 128</td>
+<td>Overfitting still present but less</td>
+</tr>
+<tr>
+<td>0.9936</td>
+<td>32 filters, 5x5 → 64 filters, 5x5 → 128 filters, 3x3, batch size 256</td>
+<td>Almost no overfitting</td>
+</tr>
+<tr>
+<td><strong>0.9938</strong></td>
+<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch size 256, SGD optimizer (momentum 0.9)</td>
+<td><strong>Almost no overfitting</strong></td>
+</tr>
+<tr>
+<td>0.9923</td>
+<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3, batch normalization after each convolution layer, batch size 128</td>
+<td>Overfitting still present but less</td>
+</tr>
+<tr>
+<td>0.9915</td>
+<td>32 filters, 3x3 → 64 filters, 3x3 → 128 filters, 3x3 → 256 filters, 3x3, batch size 128</td>
+<td>Overfitting very quickly</td>
+</tr>
+</tbody>
+</table>
+<p>The best performing model is the one with 32 filters of size 3x3 in the first convolutional layer, followed by 64 filters of size 3x3 in the second convolutional layer, and finally 128 filters of size 3x3 in the third convolutional layer. We also used a batch size of 256, the SGD optimizer with a momentum of 0.9, dropout layers with a dropout rate of 0.3 after the flatten layer and after the first dense layer and 50 epochs. This model achieved an accuracy of 0.9938 on the test set, which is a significant improvement over the previous models. The test score is 0.0212. The history plot and confusion matrix are shown below:</p>
+<div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; align-items:flex-start;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_33_history_plot.png" alt="linear" style="width:100%; max-width:300px; height:auto;">
+<img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/3_33_cm.png" alt="relu" style="width:100%; max-width:300px; height:auto;">
+</div>
+<h3 id="questions">Questions</h3>
+<blockquote>
+<p>a. Select a neural network topology and describe the inputs, indicate how many are they, and how many outputs.</p>
+</blockquote>
+<p>The selected neural network topology is the third model described above.</p>
+<ul>
+<li><strong>Inputs</strong>: The input to the model is a grayscale image of size 28x28 pixels. Each pixel is represented by a single value (intensity) ranging from 0 to 255. Therefore, the total number of input features is 28 * 28 = 784.</li>
+<li><strong>Outputs</strong>: The output of the model is a probability distribution over 10 classes, corresponding to the digits 0 to 9. Therefore, there are 10 output neurons in the final dense layer, each representing the probability of the input image belonging to one of the digit classes.</li>
+</ul>
+<blockquote>
+<p>b. Compute the number of weights of each model (e.g., how many weights between the input and the hidden layer, how many weights between each pair of layers, biases, etc..) and explain how you get to the total number of weights.</p>
+</blockquote>
+<p>We will go through the calculation of the number of weights for each layer in the selected model:</p>
+<ul>
+<li><strong>First Convolutional Layer (Conv2D with 32 filters of size 3x3)</strong>: (3 * 3 * 1) * 32 + 32 = 320</li>
+<li><strong>Second Convolutional Layer (Conv2D with 64 filters of size 3x3)</strong>: (3 * 3 * 32) * 64 + 64 = 18,496</li>
+<li><strong>Third Convolutional Layer (Conv2D with 128 filters of size 3x3)</strong>: (3 * 3 * 64) * 128 + 128 = 73,856</li>
+<li><strong>First Dense Layer (Dense with 25 neurons)</strong>: (3 * 3 * 128) * 25 + 25 = 28,825</li>
+<li><strong>Second Dense Layer (Dense with 10 neurons)</strong>: (25) * 10 + 10 = 260</li>
+<li><strong>Total number of parameters in the model</strong>: 320 + 18,496 + 73,856 + 28,825 + 260 = 121,757</li>
+</ul>
+<p>Basically, we have:</p>
+<ul>
+<li>For convolutional layers: (filter_height * filter_width * input_channels) * number_of_filters + number_of_filters (for biases)</li>
+<li>For dense layers: (number_of_input_neurons) * (number_of_output_neurons) + number_of_output_neurons (for biases)</li>
+</ul>
+<blockquote>
+<p>c. Comment the differences in results for the three models. Are there particular digits that are frequently  confused?</p>
+</blockquote>
+<p>The first model achieved a good accuracy of 0.9742, which indicates that CNNs are effective for digit recognition tasks. However, there was still room for improvement. The second model, which incorporated dropout layers to mitigate overfitting, significantly improved the accuracy to 0.9862, showing that the model benefited from being trained for more epochs and that dropout helped avoid overfitting. Finally, the third model, which involved more extensive architectural changes such as increasing the number of filters, changing kernel sizes, and using a different optimizer (SGD with momentum), achieved the highest accuracy of 0.9938. This demonstrates that deeper architectures with more parameters can capture more complex features in the data, leading to better performance, although it can also lead to overfitting. In our case, we can see on the loss history plot that the model almost don't overfit at all, which is due to the dropout layers and the larger batch size. This is ideal, since it means the model generalizes well to unseen data.</p>
+<p>Now, let's take a look at the confusion matrix of the third model. We can see that there are very few misclassifications but when they do occur, they tend to happen between digits that are visually similar. For example, '5' and '3', '2' and '7',  '4' and '9', '5' and '6' and '9' and '5' are sometimes confused with each other. This is likely due to the fact that these digits share similar shapes and features, making it challenging for the model to distinguish between them in certain cases. These misclassifications indicates that the model could benefit from further fine-tuning or additional training data to better learn the features that differentiate these similar digits. However, with an accuracy of 0.9938, it will be difficult to achieve significant improvements, as the model is already performing at a very high level. Furthermore, overfitting is a real challenge for this task when trying to push the accuracy even higher, as it is quite hard to keep it under control.</p>
+<h2 id="4-chest-x-ray-to-detect-pneumonia">4. Chest X-ray to detect pneumonia</h2>
+<blockquote>
+<p>Train a CNN for the chest x-ray pneumonia recognition. In order to do so, complete the code to reproduce the architecture plotted in the notebook. Present the confusion matrix, accuracy and F1-score of the validation and test datasets and discuss your results.</p>
+</blockquote>
+<p>In this final part, a convolutional neural network (CNN) was trained to classify chest X-ray images into normal and pneumonia. The dataset contains highly imbalanced classes, so class weights were computed to compensate for the lower number of normal samples. All images were converted to grayscale and resized to 128×128 before training.
+The CNN architecture follows the structure provided in the notebook: a sequence of convolution + max-pooling blocks, followed by a flattening layer and two dense layers, ending with a sigmoid output for binary classification.</p>
+<p><strong>Validation Results</strong></p>
+<p>The validation set is very small (16 images), and the model correctly classified all samples:</p>
+<ul>
+<li>Confusion matrix:
+<ul>
+<li>Normal: 8/8 — Pneumonia: 8/8</li>
+</ul>
+</li>
+<li>Accuracy: 1.0</li>
+<li>F1-score: 1.0</li>
+</ul>
+<p>This perfect score isn't very meaningful due to the tiny validation set size.</p>
+<p><strong>Test Results</strong></p>
+<p>On the much larger test set (624 images), performance is more representative:</p>
+<ul>
+<li>Confusion matrix:
+<ul>
+<li>Normal -&gt; predicted normal: 103 and predicted pneumonia: 131</li>
+<li>Pneumonia -&gt; predicted normal: 3 and predicted pneumonia: 387</li>
+</ul>
+</li>
+<li>Accuracy: 0.78</li>
+<li>F1-score: 0.85</li>
+</ul>
+<div style="text-align:center; flex-direction: row;">
+    <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/cm_xray.png" alt="drawing" style="width:300">
+</div> 
+<p>The model detects pneumonia very well (few false negatives), but it often misclassifies normal lungs as pneumonia. This is probably due to the class imbalance, the model becomes biased toward the majority class.</p>
+<p>We can say that overall, the CNN generalizes quite well given the difficulty of the dataset and the imbalance between classes. It is more sensible to pneumonia which could be desirable in a medical context, but the number of false positives suggests that additional improvements like data augmentation or more advanced architectures could be beneficial.</p>
+<h2 id="general-questions">General questions</h2>
+<h3 id="question-1">Question 1</h3>
+<blockquote>
+<p>What is the learning algorithm being used to train the neural networks?</p>
+</blockquote>
+<p>The algorithm used by default to optimize the weights is RMSprop. RMSprop is an optimization algorithm used to adjust the weights of a neural network. It adapts the learning rates of the weights by using a moving average of the squared previous gradients, which allows faster convergence and improves learning performance.</p>
+<div style="text-align:center">
+    <img src="file:///home/massimostefani/Master/MACHLE/machle_labs/pw11/figures/rmsprop_equation.png" alt="drawing" style="width:300">
+</div>
+<p>where:</p>
+<ul>
+<li>$E[g]$ is the moving average of the squared gradients</li>
+<li>$\frac{\delta c}{\delta w}$ is the gradient of the cost function with respect to the weight</li>
+<li>$\eta$ is the learning rate</li>
+<li>$\beta$ is the moving average parameter</li>
+</ul>
+<blockquote>
+<p>What are the parameters (arguments) being used by that algorithm?</p>
+</blockquote>
+<p>The parameters used in the <code>RMSprop</code> optimizer can be found in the <code>Keras</code> documentation and are as follows:</p>
+<pre class="hljs"><code><div>keras.optimizers.RMSprop(
+    learning_rate=<span class="hljs-number">0.001</span>,
+    rho=<span class="hljs-number">0.9</span>,
+    momentum=<span class="hljs-number">0.0</span>,
+    epsilon=<span class="hljs-number">1e-07</span>,
+    centered=<span class="hljs-literal">False</span>,
+    weight_decay=<span class="hljs-literal">None</span>,
+    clipnorm=<span class="hljs-literal">None</span>,
+    clipvalue=<span class="hljs-literal">None</span>,
+    global_clipnorm=<span class="hljs-literal">None</span>,
+    use_ema=<span class="hljs-literal">False</span>,
+    ema_momentum=<span class="hljs-number">0.99</span>,
+    ema_overwrite_frequency=<span class="hljs-literal">None</span>,
+    loss_scale_factor=<span class="hljs-literal">None</span>,
+    gradient_accumulation_steps=<span class="hljs-literal">None</span>,
+    name=<span class="hljs-string">"rmsprop"</span>,
+    **kwargs
+)
+</div></code></pre>
+<blockquote>
+<p>What cost function is being used?</p>
+</blockquote>
+<p>The cost function used is the categorical cross-entropy loss function. This function is commonly used for multi-class classification problems, where the goal is to predict the class label of an input from multiple possible classes. The categorical cross-entropy loss measures the difference between the predicted probability distribution and the true distribution (one-hot encoded labels) and penalizes incorrect predictions more heavily. The equation for the categorical cross-entropy loss is given by:</p>
+<p>$$L = -\sum(y \cdot \log(\hat{y}))$$</p>
+<p>where:</p>
+<ul>
+<li>$L$ is the loss</li>
+<li>$y$ is the true label (one-hot encoded)</li>
+<li>$\hat{y}$ is the predicted probability distribution</li>
+</ul>
+<blockquote>
+<p>How did you create the training, validation and test datasets.</p>
+</blockquote>
+<h3 id="question-2">Question 2</h3>
+<p>See in each experiment section.</p>
+<h3 id="question-3">Question 3</h3>
+<blockquote>
+<p>Do the deep neural networks have much more “capacity” (i.e., do they have more weights?) than the shallow ones? Explain with one example.</p>
+</blockquote>
+<p>In general, deeper convolutional neural networks tend to have more weights than shallow models. This comes from the fact that deeper CNNs usually include a larger number of layers, and each convolution layer contains several filters that hold weights. However, this is not always true and depends on the specific model configuration. For example, a shallow model with several layers and many neurons may end up with more weights than a CNN that has only one convolution layer using small filters.</p>
+<h3 id="question-4">Question 4</h3>
+<p>See the section for part 4.</p>
+
+</body>
+</html>
