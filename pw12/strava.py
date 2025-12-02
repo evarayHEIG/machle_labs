@@ -37,7 +37,7 @@ class RunImport():
                 else:
                     average_speed = data['distance'].max() / data['time'].max()
                     if average_speed > self.average_speed_th:
-                        dataset = dataset.append(data)
+                        dataset = pd.concat([dataset, data], ignore_index=True)
                         race_number += 1
                     else:
                         print('\nRace', race_number, 'ignored. Average speed:', average_speed)
@@ -51,7 +51,7 @@ class RunImport():
             print('Dataset statistics:')
             display(dataset.describe())
             print('\nDataset sample:')
-            display(dataset.head().append(dataset.tail()))
+            display(pd.concat([dataset.head(), dataset.tail()]))
             
             return dataset
         else:
