@@ -44,7 +44,7 @@ To conclude, it is interesting to note that the model performs better on "easy" 
 
 > 2. What is the largest error (speed prediction) you observed? Do you observe that most of those large errors show up for high speeds ? or low speeds? Why?
 
-
+We have performed more tests to analyze the prediction errors of our LSTM model.
 
 ```
 configurations = [
@@ -136,5 +136,4 @@ The current model works well for steady-state running but struggles with rapid t
 
 > 3. Using the predicted speeds for a given race, compute the expected time for a race and compute the difference between the real race time and the predicted race time in minutes. Provide the code of the cell that computes this prediction error.
  
-*See the labo_12_lstm.ipynb file. It was solved in the last code cell.*
-We have performed more tests to analyze the prediction errors of our LSTM model.
+*See the `labo_12_lstm.ipynb` file. It was solved in the last code cell.*
