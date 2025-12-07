@@ -135,5 +135,41 @@ The current model works well for steady-state running but struggles with rapid t
 
 
 > 3. Using the predicted speeds for a given race, compute the expected time for a race and compute the difference between the real race time and the predicted race time in minutes. Provide the code of the cell that computes this prediction error.
- 
-*See the `labo_12_lstm.ipynb` file. It was solved in the last code cell.*
+>
+We wortk with a time series of speed measurments recorded during a race.
+Each pair of consecutive observations define a segments and it's duration is given by timestamp difference delta_T 
+To compute the real distance, we multiply the speed at each observation by the delta_T: distance = speed * delta_T 
+The total time of the race is given by the sum of the times of each segment: total_time = sum(distance / speed) 
+To compute the error we compute the difference between the predicted total time and the original total time over 60 to get the error in minutes.
+
+```python
+# delta t between each point (from real timestamps)
+delta_t = np.diff(X_o[:, -1, 0])
+
+# We retrieve the actual and predicted speeds aligned with segment times
+# since delta_t has length N-1, we take the first N-1 speeds
+actual_speed = y_o[:-1]
+predicted_speed = y_pred_o[:-1, 0]
+
+# the distance travelled in each segment
+distance = actual_speed * delta_t
+
+# real time = sum of distance / actual speed and the division by 60 to have minutes
+real_time_min = np.sum(distance / actual_speed) / 60
+
+# the same distance but with predicted speed and division by 60 to have minutes
+pred_time_min = np.sum(distance / predicted_speed[:]) / 60
+
+print(f"Actual time: {real_time_min:.2f} min")
+print(f"Predicted time: {pred_time_min:.2f} min")
+print(f"Prediction error: {real_time_min - pred_time_min:.2f} min")
+print(f"Percentage error: {100 * abs(real_time_min - pred_time_min) / real_time_min:.2f} %")
+```
+Output:
+
+```python
+Actual time: 15.38 min
+Predicted time: 15.23 min
+Prediction error: 0.15 min
+Percentage error: 0.98 %
+```
