@@ -98,7 +98,7 @@ Best configuration: `units=10, epochs=40, timesteps=15` achieved the highest tes
 
 Using the best performing configuration, we analyzed prediction errors across all test races:
 
-- Maximum error observed: 5.764 m/s  
+- Maximum error observed: 2.334 m/s  
 - Speed at maximum error: 0.848 m/s
 
 Speed categories may be defined as follows:
@@ -111,21 +111,21 @@ Speed categories may be defined as follows:
     <img src="images/error_distribution.png" alt="Error vs Speed" style="width:500px"/>
 </div>
 
-We can see that largest errors occur at low speeds, not high speeds.
+We can see that largest errors occur at low speeds, even if high speeds have some outliers as well.
 
 - Why do low speeds cause large errors?
 
-Low speeds (0-2 m/s) happen during steep uphill sections, at the start/end of races, or during abrupt transitions. In these situations, runners behave very differently from one another - some walk, others push through slowly, and pacing strategies vary significantly.
+Low speeds (0-2 m/s) happen during steep uphill sections, at the start/end of races, or during abrupt transitions. In these situations, runners behave very differently from one another, some walk, others push through slowly, and pacing strategies vary significantly.
 
 The dataset also plays a role. Runners spend most of their race time at medium to high speeds, so the model sees many more training examples in that range. Low-speed sections are relatively rare in the data, which means the model hasn't learned to handle them as well.
 
-Another issue is the LSTM's tendency to smooth predictions based on recent history. When a runner suddenly slows down on a steep hill, the model still "remembers" the previous higher speeds and underestimates how much the runner will slow down. It takes several prediction steps for the model to catch up to reality. This lag is visible in our prediction plots - the model consistently reacts too slowly to rapid changes.
+Another issue is the LSTM's tendency to smooth predictions based on recent history. When a runner suddenly slows down on a steep hill, the model still "remembers" the previous higher speeds and underestimates how much the runner will slow down. It takes several prediction steps for the model to catch up to reality.
 
 At medium and high speeds (2-4 m/s), the relationship between slope and speed is much more consistent. Runners maintain steady pacing strategies, and there's less individual variation. At low speeds, factors like fatigue, whether someone chooses to walk or run, and individual fitness levels create a lot more noise in the data.
 
 - The maximum error case
 
-The maximum error of 5.764 m/s occurred when the runner was moving at only 0.848 m/s. This means the model predicted roughly 6.6 m/s while the runner had actually slowed to a near-walk. This likely happened when the runner hit a sudden steep uphill - the model, expecting normal running speeds based on recent data, completely missed the dramatic slowdown.
+The maximum error of 2.334 m/s occurred when the runner was moving at only 0.848 m/s. This likely happened when the runner hit a sudden steep uphill. The model, expecting normal running speeds based on recent data, completely missed the slowdown.
 
 - What could improve this?
 
