@@ -81,3 +81,29 @@ The resulting visualization shows even clearer separation between the classes, w
 On our machine, running t-SNE on PCA-reduced (dimension 50) data took approximately 12.03 seconds, while running t-SNE directly on the raw embeddings (dimension 145) took about 12.9 seconds. The difference in computational time is not very significant in this case, likely due to the relatively small size of the dataset (15,000 samples). However, for larger datasets, applying PCA before t-SNE can lead to more substantial reductions in computation time.
 
 ## 3. UMAP
+
+
+> - Observe the distinct groups formed in the UMAP output. 
+
+The UMAP 2D projection on the full dataset (70,000 samples) shows a good class separation. All 10 digit classes form distinct, compact, and well-defined clusters with a few minimal overlap.
+
+![UMAP 2D Full Dataset](images/umap_70k_full.png)
+Compare to the t-SNE results, UMAP provides a similar, or even better, separation of the classes.
+
+
+> - Record the computational time required to produce these results && compare  the  performance  and  visualization  results  of  UMAP  with  those  obtained  using  t-SNE.  
+
+To compare the computational time of UMAP with t-SNE, we ran both algorithms on the same hardware and dataset sizes (except for the full dataset for UMAP). Here are the results:
+
+| Method       | Dataset Size | Time (seconds) | Speed-up                  |
+| ------------ | ------------ | -------------- | ------------------------- |
+| t-SNE direct | 15,000       | 70.56          | 1.0× (baseline)           |
+| PCA + t-SNE  | 15,000       | 79.30          | 0.89× (slower!)           |
+| UMAP         | 15,000       | 16.17          | 4.4× faster               |
+| UMAP         | 70,000       | 76.17          | Processes 4.7× more data! |
+> **_NOTE:_** _Results presented here might differ from the previous exercices since it was run on another machine._
+
+Compared to the previous t-SNE results, PCA preprocessing is actually slower than t-SNE alone on the computer used for this comparison. No explanation has been found yet for this behavior...
+In the case of UMAP, it is clearly much faster than t-SNE on equal-sized datasets (16.17s vs 70.56s). Moreover, UMAP scales well to the full dataset, processing all 70,000 samples in approximately the same time as t-SNE on only 15,000 samples (76.17s vs 70.56s). This demonstrates UMAP's efficiency and ability to handle larger datasets without the need for subsampling.
+
+
