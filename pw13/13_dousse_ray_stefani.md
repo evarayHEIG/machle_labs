@@ -4,6 +4,77 @@
 
 ## 1. PCA
 
+### Question 1: Scatter Matrix and Best Variable Pair
+
+> Provide the scatter matrix and select the pair of variables (by visual inspection of the scatter matrix) that appears to allow the recognition of the three classes of wine. Explain.
+
+<img src=images/wine_scatter.png style="width:100%; max-width:300px; height:auto;">
+
+By visual inspection of the scatter matrix of the 13 original features, the best pair of variables for separating the three wine classes appears to be EV7 and EV13.
+
+When plotted in the scatter matrix, these variables exhibit clear cluster separation with minimal overlap between classes. The red, green, and blue points (representing the three wine classes) occupy distinct regions of the feature space, making visual classification straightforward.
+
+### Question 2: PCA Variance Explained
+
+> After performing a PCA on the wine dataset, what is the percentage of the variance of the data explained by each one of the first 3 principal components? And the accumulated explained variance?
+
+After performing PCA on the wine dataset, the variance explained by the first 3 principal components is:
+
+**Individual variance explained:**
+- PC1: 36.20% of the total variance
+- PC2: 19.21% of the total variance
+- PC3: 11.12% of the total variance
+
+**Cumulative variance explained:**
+- PC1: 36.20%
+- PC1-PC2: 55.41%
+- PC1-PC3: 66.53%
+
+The first principal component captures more than one-third of the total variance in the dataset, representing the primary direction of variability. The second component captures an additional 19.21% of variance in a direction orthogonal to PC1. Together, the first three components explain approximately two-thirds (66.53%) of the total variance in the original 13-dimensional data, demonstrating that PCA effectively captures most of the information while reducing dimensionality by 77% (from 13 to 3 features).
+
+### Question 3: MLP Classification Comparison
+
+> Randomly split the dataset into train (80%) and test (20%) datasets. Train a Multi-layer Perceptron to classify the wine types using the complete set of variables and compare the performance of a model that only uses the 3 principal components (provide the confusion matrices and compare accuracies and F1-score values).
+
+We trained Multi-layer Perceptron classifiers on both the complete set of variables and on 3 principal components. The dataset was randomly split into 80% training and 20% testing sets with stratification to maintain class proportions.
+
+**Results:**
+
+<img src=images/matrix_3f.png style="width:100%; max-width:300px; height:auto;">
+
+<img src=images/matrix_all.png style="width:100%; max-width:300px; height:auto;">
+
+**Comparison:**
+Remarkably, the MLP using only 3 PCA components (capturing 66.53% of variance) achieves identical performance to the model using all 13 original features:
+- Both achieve 97.22% accuracy
+- Both have identical F1-scores of 0.9720
+
+**Conclusion:** This demonstrates that PCA is highly effective for this dataset. By reducing dimensionality from 13 to 3 features (77% reduction), we maintain perfect classification performance while gaining several advantages as reduced computational cost, faster training and inference, and better interpretability with 3D visualization.
+
+The 3 principal components capture the essential discriminative information needed for wine classification, proving that the remaining 33.47% of variance in the original data does not contribute significantly to class separation.
+
+### Question 4: Optimal Component Selection for 80% Variance
+
+> Find the smallest set of components capable of explaining at least 80% of the variance of the data. Use these components to train a Multi-layer Perceptron to classify the wine types using these components and compare the performance with previous results (provide the confusion matrix and compare accuracy and F1-score values).
+
+To explain at least 80% of the variance, we need 5 principal components, which together explain 80.16% of the total variance.
+
+**Results with 5 PCA components:**
+- Accuracy: 94.44%
+- F1-Score (weighted): 0.9432
+
+<img src=images/matrix_5f.png style="width:100%; max-width:300px; height:auto;">
+
+
+**Comparison of all models:**
+
+| Model | Accuracy | F1-Score | Features | Variance Explained |
+|-------|----------|----------|----------|-------------------|
+| 3 PCA components | 97.22% | 0.9720 | 3 | 66.53% |
+| 5 PCA components | 94.44% | 0.9432 | 5 | 80.16% |
+| 13 full features | 97.22% | 0.9720 | 13 | 100% |
+
+
 ## 2. t-SNE
 
 > Run the notebook and observe the resulting 2D visualization of the embeddings. Are the ten classes clearly separated? Provide that visualization.
